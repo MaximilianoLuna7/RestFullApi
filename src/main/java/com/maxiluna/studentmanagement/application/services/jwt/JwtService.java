@@ -1,4 +1,4 @@
-package com.maxiluna.studentmanagement.application.services.auth;
+package com.maxiluna.studentmanagement.application.services.jwt;
 ;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

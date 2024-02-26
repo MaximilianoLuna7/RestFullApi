@@ -1,4 +1,4 @@
-package com.maxiluna.studentmanagement.config;
+package com.maxiluna.studentmanagement.config.security;
 
 import com.maxiluna.studentmanagement.config.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.maxiluna.studentmanagement.presentation.controllers.auth;
+package com.maxiluna.studentmanagement.presentation.controllers;
 
 import com.maxiluna.studentmanagement.application.services.auth.AuthService;
 import com.maxiluna.studentmanagement.domain.models.User;
