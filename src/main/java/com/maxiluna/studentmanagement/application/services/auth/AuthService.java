@@ -1,5 +1,6 @@
 package com.maxiluna.studentmanagement.application.services.auth;
 
+import com.maxiluna.studentmanagement.application.services.jwt.JwtService;
 import com.maxiluna.studentmanagement.domain.exceptions.DatabaseErrorException;
 import com.maxiluna.studentmanagement.domain.exceptions.EmailAlreadyExistsException;
 import com.maxiluna.studentmanagement.domain.models.User;
@@ -15,7 +16,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

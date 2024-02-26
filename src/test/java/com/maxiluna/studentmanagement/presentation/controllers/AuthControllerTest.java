@@ -10,7 +10,6 @@ import com.maxiluna.studentmanagement.domain.exceptions.DatabaseErrorException;
 import com.maxiluna.studentmanagement.domain.exceptions.EmailAlreadyExistsException;
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.domain.models.UserRole;
-import com.maxiluna.studentmanagement.presentation.controllers.auth.AuthController;
 import com.maxiluna.studentmanagement.presentation.dtos.AuthResponse;
 import com.maxiluna.studentmanagement.presentation.dtos.LoginRequest;
 import com.maxiluna.studentmanagement.presentation.dtos.UserDto;

@@ -1,5 +1,6 @@
 package com.maxiluna.studentmanagement.application.services.auth;
 
+import com.maxiluna.studentmanagement.application.services.jwt.JwtService;
 import com.maxiluna.studentmanagement.domain.exceptions.EmailAlreadyExistsException;
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.domain.models.UserRole;

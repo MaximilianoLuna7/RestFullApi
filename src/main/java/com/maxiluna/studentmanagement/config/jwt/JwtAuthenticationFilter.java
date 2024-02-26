@@ -1,6 +1,6 @@
 package com.maxiluna.studentmanagement.config.jwt;
 
-import com.maxiluna.studentmanagement.application.services.auth.JwtService;
+import com.maxiluna.studentmanagement.application.services.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
