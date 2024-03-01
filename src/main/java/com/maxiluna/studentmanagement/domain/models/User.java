@@ -12,7 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -42,6 +44,16 @@ public class User implements UserDetails {
 
     @NotNull(message = "Role must not be null")
     private UserRole role;
+
+    private Set<Subject> subjects = new HashSet<>();
+
+    public void addSubject(Subject subjectToAdd) {
+        subjects.add(subjectToAdd);
+    }
+
+    public void removeSubject(Subject subjectToRemove) {
+        subjects.remove(subjectToRemove);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

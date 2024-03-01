@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -104,15 +105,16 @@ public class UserTest {
         user.setRole(userAdmin);
 
         // Act
-        User equalUser = new User(
-                userId,
-                userEmail,
-                userPassword,
-                userFirstName,
-                userLastName,
-                userBirthDate,
-                userAdmin
-        );
+        User equalUser = User.builder()
+                .id(userId)
+                .email(userEmail)
+                .password(userPassword)
+                .firstName(userFirstName)
+                .lastName(userLastName)
+                .birthDate(userBirthDate)
+                .role(userAdmin)
+                .subjects(new HashSet<>())
+                .build();
 
         // Assert
         assertThat(user).isEqualTo(equalUser);

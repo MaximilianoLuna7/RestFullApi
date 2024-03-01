@@ -4,7 +4,7 @@ import com.maxiluna.studentmanagement.application.services.auth.AuthService;
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.presentation.dtos.AuthResponse;
 import com.maxiluna.studentmanagement.presentation.dtos.LoginRequest;
-import com.maxiluna.studentmanagement.presentation.dtos.UserDto;
+import com.maxiluna.studentmanagement.presentation.dtos.RegisterRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponse> loginUser(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> registerUser(@Valid @RequestBody UserDto userToRegister) {
+    public ResponseEntity<AuthResponse> registerUser(@Valid @RequestBody RegisterRequest userToRegister) {
         User user = userToRegister.toUser();
         return ResponseEntity.ok(authService.register(user));
     }
