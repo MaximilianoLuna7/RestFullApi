@@ -10,10 +10,7 @@ import com.maxiluna.studentmanagement.domain.exceptions.DatabaseErrorException;
 import com.maxiluna.studentmanagement.domain.exceptions.EmailAlreadyExistsException;
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.domain.models.UserRole;
-import com.maxiluna.studentmanagement.presentation.dtos.AuthResponse;
-import com.maxiluna.studentmanagement.presentation.dtos.LoginRequest;
-import com.maxiluna.studentmanagement.presentation.dtos.UserDto;
-import com.maxiluna.studentmanagement.presentation.dtos.UserInfoDto;
+import com.maxiluna.studentmanagement.presentation.dtos.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,8 +56,7 @@ class AuthControllerTest {
     @DisplayName("Login user - Successful")
     public void loginUser_Successful() throws Exception {
         // Arrange
-        UserDto user = createUserDto();
-        LoginRequest request = new LoginRequest(user.getEmail(), user.getPassword());
+        LoginRequest request = createLoginRequest();
         AuthResponse response = createAuthResponse();
 
         when(authService.login(request)).thenReturn(response);
@@ -109,8 +105,8 @@ class AuthControllerTest {
     @DisplayName("Register user - Successful")
     public void registerUser_Successful() throws Exception {
         // Arrange
-        UserDto userDto = createUserDto();
-        User userToRegister = userDto.toUser();
+        RegisterRequest registerRequest = createRegisterRequest();
+        User userToRegister = registerRequest.toUser();
         AuthResponse response = createAuthResponse();
 
         when(authService.register(userToRegister)).thenReturn(response);
@@ -118,7 +114,7 @@ class AuthControllerTest {
         // Act & Assert
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(userDto)))
+                        .content(asJsonString(registerRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value(response.getToken()))
                 .andExpect(jsonPath("$.message").value(response.getMessage()))
@@ -136,15 +132,15 @@ class AuthControllerTest {
     @DisplayName("Register user with existent email - Throws EmailAlreadyExistsException")
     public void registerWithExistentEmail_ThrowsException() throws Exception {
         // Arrange
-        UserDto userDto = createUserDto();
-        User user = userDto.toUser();
+        RegisterRequest registerRequest = createRegisterRequest();
+        User user = registerRequest.toUser();
 
         when(authService.register(user)).thenThrow(new EmailAlreadyExistsException("Email already exists: " + user.getEmail()));
 
         // Act & Assert
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(userDto)))
+                        .content(asJsonString(registerRequest)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.error").value(HttpStatus.BAD_REQUEST.getReasonPhrase()))
@@ -159,15 +155,15 @@ class AuthControllerTest {
     @DisplayName("Database error during registration - Throws DatabaseErrorException")
     public void registerWithDatabaseError_ThrowsException() throws Exception {
         // Arrange
-        UserDto userDto = createUserDto();
-        User user = userDto.toUser();
+        RegisterRequest registerRequest = createRegisterRequest();
+        User user = registerRequest.toUser();
 
         when(authService.register(user)).thenThrow(new DatabaseErrorException("Error while accessing the database"));
 
         // Act & Assert
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(userDto)))
+                        .content(asJsonString(registerRequest)))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.status").value(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                 .andExpect(jsonPath("$.error").value("Database Error"))
@@ -182,13 +178,13 @@ class AuthControllerTest {
     @DisplayName("Handle Validation Exception - Global Exception Handler")
     public void handleValidationException_GlobalExceptionHandler() throws Exception {
         // Arrange
-        UserDto invalidUserDto = createUserDtoWithInvalidFields();
-        User user = invalidUserDto.toUser();
+        RegisterRequest invalidRequest = createInvalidRegisterRequest();
+        User user = invalidRequest.toUser();
 
         // Act & Assert
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(invalidUserDto)))
+                        .content(asJsonString(invalidRequest)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.error").value("Validation error"))
@@ -211,27 +207,34 @@ class AuthControllerTest {
         return objectMapper.writeValueAsString(obj);
     }
 
-    private UserDto createUserDto() {
-        return UserDto.builder()
-                .id(1L)
+    private AuthResponse createAuthResponse() {
+        UserInfoDto userInfoDto = new UserInfoDto(1L, "test@example.com", "TEACHER");
+        return new AuthResponse("token123","Successful registration", "registered", LocalDateTime.now().plusHours(1), userInfoDto);
+    }
+
+    private RegisterRequest createInvalidRegisterRequest() {
+        return RegisterRequest.builder()
+                .firstName("A")
+                .lastName("A")
+                .birthDate(LocalDate.now().plusDays(1))
+                .build();
+    }
+
+    private LoginRequest createLoginRequest() {
+        return LoginRequest.builder()
+                .email("john.doe@example.com")
+                .password("password123")
+                .build();
+    }
+
+    private RegisterRequest createRegisterRequest() {
+        return RegisterRequest.builder()
                 .email("john.doe@example.com")
                 .password("password123")
                 .firstName("John")
                 .lastName("Doe")
                 .birthDate(LocalDate.of(2000, 2, 5))
                 .role(UserRole.TEACHER)
-                .build();
-    }
-    private AuthResponse createAuthResponse() {
-        UserInfoDto userInfoDto = new UserInfoDto(1L, "test@example.com", "TEACHER");
-        return new AuthResponse("token123","Successful registration", "registered", LocalDateTime.now().plusHours(1), userInfoDto);
-    }
-
-    private UserDto createUserDtoWithInvalidFields() {
-        return UserDto.builder()
-                .firstName("A")
-                .lastName("A")
-                .birthDate(LocalDate.now().plusDays(1))
                 .build();
     }
 }
