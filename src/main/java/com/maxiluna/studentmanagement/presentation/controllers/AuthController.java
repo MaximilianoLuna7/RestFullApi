@@ -2,9 +2,9 @@ package com.maxiluna.studentmanagement.presentation.controllers;
 
 import com.maxiluna.studentmanagement.application.services.auth.AuthService;
 import com.maxiluna.studentmanagement.domain.models.User;
-import com.maxiluna.studentmanagement.presentation.dtos.AuthResponse;
-import com.maxiluna.studentmanagement.presentation.dtos.LoginRequest;
-import com.maxiluna.studentmanagement.presentation.dtos.RegisterRequest;
+import com.maxiluna.studentmanagement.presentation.dtos.auth.AuthResponse;
+import com.maxiluna.studentmanagement.presentation.dtos.auth.LoginRequest;
+import com.maxiluna.studentmanagement.presentation.dtos.auth.RegisterRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

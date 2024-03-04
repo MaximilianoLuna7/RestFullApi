@@ -6,9 +6,9 @@ import com.maxiluna.studentmanagement.domain.exceptions.EmailAlreadyExistsExcept
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.infrastructure.entities.UserJpa;
 import com.maxiluna.studentmanagement.infrastructure.persistence.JpaUserRepository;
-import com.maxiluna.studentmanagement.presentation.dtos.AuthResponse;
-import com.maxiluna.studentmanagement.presentation.dtos.LoginRequest;
-import com.maxiluna.studentmanagement.presentation.dtos.UserInfoDto;
+import com.maxiluna.studentmanagement.presentation.dtos.auth.AuthResponse;
+import com.maxiluna.studentmanagement.presentation.dtos.auth.LoginRequest;
+import com.maxiluna.studentmanagement.presentation.dtos.user.UserInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AuthenticationManager;
