@@ -13,15 +13,14 @@ import com.maxiluna.studentmanagement.domain.usecases.user.GetUserDataUseCase;
 import com.maxiluna.studentmanagement.domain.usecases.user.ListUsersUseCase;
 import com.maxiluna.studentmanagement.domain.usecases.user.UpdateUserDataUseCase;
 import com.maxiluna.studentmanagement.infrastructure.entities.UserJpa;
-import com.maxiluna.studentmanagement.presentation.dtos.UserResponseDto;
-import com.maxiluna.studentmanagement.presentation.dtos.UserUpdateDto;
+import com.maxiluna.studentmanagement.presentation.dtos.user.UserResponseDto;
+import com.maxiluna.studentmanagement.presentation.dtos.user.UserUpdateDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -222,8 +221,8 @@ class UserControllerTest {
         Long nonExistentUserId = 999L;
         String expectedErrorMessage = "User not found.";
 
-        // Mock the behavior of the deleteUserUseCase to throw UserNotFoundException
-        doThrow(new UserNotFoundException(expectedErrorMessage)).when(deleteUserUseCase).deleteUserAccount(nonExistentUserId);
+        doThrow(new UserNotFoundException(expectedErrorMessage))
+                .when(deleteUserUseCase).deleteUserAccount(nonExistentUserId);
 
         // Act & Assert
         mockMvc.perform(delete("/api/users/{userId}", nonExistentUserId))

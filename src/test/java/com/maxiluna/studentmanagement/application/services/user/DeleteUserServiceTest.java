@@ -44,8 +44,8 @@ class DeleteUserServiceTest {
     }
 
     @Test
-    @DisplayName("Delete non existent user account - Successful")
-    public void deleteNonExistentUserAccount_Successful() {
+    @DisplayName("Delete non existent user account - Throws Exception")
+    public void deleteNonExistentUserAccount_ThrowsException() {
         // Arrange
         Long nonExistentUserId = 999L;
 
