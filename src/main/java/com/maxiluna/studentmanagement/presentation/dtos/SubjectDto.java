@@ -1,6 +1,7 @@
 package com.maxiluna.studentmanagement.presentation.dtos;
 
 import com.maxiluna.studentmanagement.domain.models.Subject;
+import com.maxiluna.studentmanagement.presentation.dtos.user.UserResponseDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
