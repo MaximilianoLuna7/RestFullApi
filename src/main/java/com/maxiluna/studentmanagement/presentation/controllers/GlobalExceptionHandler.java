@@ -1,5 +1,6 @@
 package com.maxiluna.studentmanagement.presentation.controllers;
 
+import com.maxiluna.studentmanagement.domain.exceptions.CourseNotFoundException;
 import com.maxiluna.studentmanagement.domain.exceptions.DatabaseErrorException;
 import com.maxiluna.studentmanagement.domain.exceptions.EmailAlreadyExistsException;
 import com.maxiluna.studentmanagement.domain.exceptions.UserNotFoundException;
@@ -37,6 +38,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<CustomErrorResponse> handlerUserNotFoundException(UserNotFoundException ex, HttpServletRequest request) {
+        CustomErrorResponse errorResponse = new CustomErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(CourseNotFoundException.class)
+    public ResponseEntity<CustomErrorResponse> handlerCourseNotFoundException(CourseNotFoundException ex, HttpServletRequest request) {
         CustomErrorResponse errorResponse = new CustomErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
