@@ -1,7 +1,8 @@
-package com.maxiluna.studentmanagement.presentation.dtos;
+package com.maxiluna.studentmanagement.presentation.dtos.user;
 
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.domain.models.UserRole;
+import com.maxiluna.studentmanagement.presentation.dtos.SubjectDto;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

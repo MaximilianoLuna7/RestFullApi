@@ -1,13 +1,12 @@
-package com.maxiluna.studentmanagement.presentation.dtos;
+package com.maxiluna.studentmanagement.presentation.dtos.auth;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxiluna.studentmanagement.presentation.dtos.user.UserInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor

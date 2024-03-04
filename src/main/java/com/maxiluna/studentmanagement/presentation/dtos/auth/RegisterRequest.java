@@ -1,4 +1,4 @@
-package com.maxiluna.studentmanagement.presentation.dtos;
+package com.maxiluna.studentmanagement.presentation.dtos.auth;
 
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.domain.models.UserRole;

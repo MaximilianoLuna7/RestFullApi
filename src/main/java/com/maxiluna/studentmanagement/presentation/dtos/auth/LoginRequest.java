@@ -1,4 +1,4 @@
-package com.maxiluna.studentmanagement.presentation.dtos;
+package com.maxiluna.studentmanagement.presentation.dtos.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

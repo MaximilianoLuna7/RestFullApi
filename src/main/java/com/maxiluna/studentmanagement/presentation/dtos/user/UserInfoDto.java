@@ -1,4 +1,4 @@
-package com.maxiluna.studentmanagement.presentation.dtos;
+package com.maxiluna.studentmanagement.presentation.dtos.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
