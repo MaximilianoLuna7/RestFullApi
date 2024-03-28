@@ -1,8 +1,8 @@
 package com.maxiluna.studentmanagement.presentation.dtos.user;
 
+import com.maxiluna.studentmanagement.domain.models.Subject;
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.domain.models.UserRole;
-import com.maxiluna.studentmanagement.presentation.dtos.SubjectDto;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,13 +37,9 @@ public class UserResponseDto {
     @NotNull(message = "Role must not be null")
     private UserRole role;
 
-    private List<SubjectDto> subjects = new ArrayList<>();
+    private List<Long> subjectIds;
 
     public static UserResponseDto fromUser(User user) {
-        List<SubjectDto> subjectsDto = user.getSubjects().stream()
-                .map(SubjectDto::fromSubject)
-                .collect(Collectors.toList());
-
         return UserResponseDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -52,7 +47,6 @@ public class UserResponseDto {
                 .lastName(user.getLastName())
                 .birthDate(user.getBirthDate())
                 .role(user.getRole())
-                .subjects(subjectsDto)
                 .build();
     }
 }

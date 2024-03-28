@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CourseDto {
+public class CreateCourseDto {
 
     private Long id;
 
@@ -37,14 +37,5 @@ public class CourseDto {
         course.setDurationInYears(this.durationInYears);
 
         return course;
-    }
-
-    public static CourseDto fromCourse(Course course) {
-        return CourseDto.builder()
-                .id(course.getId())
-                .name(course.getName())
-                .institutionName(course.getInstitutionName())
-                .durationInYears(course.getDurationInYears())
-                .build();
     }
 }

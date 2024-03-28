@@ -25,5 +25,7 @@ public class Subject {
     @Min(value = 2000, message = "Academic year must be greater than or equal to 2000")
     private Integer academicYear;
 
+    private Course course;
+
     private User teacher;
 }

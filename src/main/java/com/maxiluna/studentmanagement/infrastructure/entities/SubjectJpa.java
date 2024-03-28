@@ -26,6 +26,10 @@ public class SubjectJpa {
     private Integer academicYear;
 
     @ManyToOne
+    @JoinColumn(name = "course_id")
+    private CourseJpa course;
+
+    @ManyToOne
     @JoinColumn(name = "teacher_id")
     private UserJpa teacher;
 
@@ -38,16 +42,12 @@ public class SubjectJpa {
     }
 
     public Subject toSubject() {
-        Subject subject = Subject.builder()
+        return Subject.builder()
                 .id(this.id)
                 .name(this.name)
                 .academicYear(this.academicYear)
+                .course(this.course.toCourse())
+                .teacher(this.teacher.toUser())
                 .build();
-
-        if (this.teacher != null) {
-            subject.setTeacher(this.teacher.toUser());
-        }
-
-        return subject;
     }
 }

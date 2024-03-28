@@ -1,7 +1,6 @@
-package com.maxiluna.studentmanagement.presentation.dtos;
+package com.maxiluna.studentmanagement.presentation.dtos.subject;
 
 import com.maxiluna.studentmanagement.domain.models.Subject;
-import com.maxiluna.studentmanagement.presentation.dtos.user.UserResponseDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,10 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SubjectDto {
-
-    private Long id;
-
+public class SubjectRequestDto {
     @NotBlank(message = "Name must not be blank")
     @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
     private String name;
@@ -27,19 +23,17 @@ public class SubjectDto {
     @Min(value = 2000, message = "Academic year must be greater than or equal to 2000")
     private Integer academicYear;
 
+    @NotNull(message = "Course ID is required")
+    private Long courseId;
+
+    @NotNull(message = "Teacher ID is required")
     private Long teacherId;
 
-    public static SubjectDto fromSubject(Subject subject) {
-        return SubjectDto.builder()
-                .id(subject.getId())
-                .name(subject.getName())
-                .academicYear(subject.getAcademicYear())
-                .teacherId(subject.getTeacher().getId())
+    public Subject toSubject() {
+        return Subject.builder()
+                .name(this.name)
+                .academicYear(this.academicYear)
                 .build();
-    }
-
-    public UserResponseDto getTeacherDto(Subject subject) {
-        return UserResponseDto.fromUser(subject.getTeacher());
     }
 }
 

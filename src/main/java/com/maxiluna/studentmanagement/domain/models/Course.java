@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,4 +31,6 @@ public class Course {
     @NotNull(message = "Duration years most not be null")
     @Positive(message = "Duration years must be a positive number")
     private Double durationInYears;
+
+    private List<Subject> subjects;
 }

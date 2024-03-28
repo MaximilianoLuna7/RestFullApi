@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,6 +30,9 @@ public class CourseJpa {
 
     @Column(nullable = false, name = "duration_in_years")
     private Double durationInYears;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<SubjectJpa> subjects;
 
     public static CourseJpa fromCourse(Course course) {
         return CourseJpa.builder()
