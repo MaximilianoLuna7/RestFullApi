@@ -23,14 +23,6 @@ class JpaSubjectRepositoryIntegrationTest {
     @Autowired
     private JpaUserRepository jpaUserRepository;
 
-    private UserJpa teacher;
-
-    @BeforeEach
-    public void setup() {
-        teacher = createUserJpa();
-        jpaUserRepository.save(teacher);
-    }
-
     @Test
     @DisplayName("Save subject - Successful")
     public void saveSubject_Successful() {
@@ -43,6 +35,7 @@ class JpaSubjectRepositoryIntegrationTest {
         // Assert
         assertThat(savedSubject.getId()).isNotNull();
         assertThat(savedSubject.getName()).isEqualTo(subject.getName());
+        System.out.println(subject);
     }
 
     @Test
@@ -81,7 +74,6 @@ class JpaSubjectRepositoryIntegrationTest {
         SubjectJpa subject2 = SubjectJpa.builder()
                 .name("Algebra")
                 .academicYear(2020)
-                .teacher(teacher)
                 .build();
 
         jpaSubjectRepository.save(subject1);
@@ -116,18 +108,6 @@ class JpaSubjectRepositoryIntegrationTest {
         return SubjectJpa.builder()
                 .name("Mathematics")
                 .academicYear(2022)
-                .teacher(teacher)
-                .build();
-    }
-
-    private UserJpa createUserJpa() {
-        return UserJpa.builder()
-                .email("teacher@example.com")
-                .password("password")
-                .firstName("Teacher")
-                .lastName("Smith")
-                .birthDate(LocalDate.of(1980, 5, 15))
-                .role("TEACHER")
                 .build();
     }
 }

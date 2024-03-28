@@ -10,6 +10,7 @@ class CourseTest {
     private final String name = "Math";
     private final String institution = "University";
     private final Double years = 3.5;
+
     @Test
     @DisplayName("Create Course instance")
     public void createCourse_SuccessfulInstantiation() {

@@ -4,6 +4,7 @@ import com.maxiluna.studentmanagement.domain.exceptions.CourseNotFoundException;
 import com.maxiluna.studentmanagement.domain.models.Course;
 import com.maxiluna.studentmanagement.infrastructure.entities.CourseJpa;
 import com.maxiluna.studentmanagement.infrastructure.persistence.JpaCourseRepository;
+import com.maxiluna.studentmanagement.infrastructure.persistence.JpaSubjectRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,6 +74,9 @@ class GetCourseDataServiceTest {
         assertThatThrownBy(() -> getCourseDataService.getCourseData(invalidId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid course ID: " + invalidId);
+
+        // Verify
+        verifyNoInteractions(courseRepository);
     }
 
     private CourseJpa createCourseJpa() {

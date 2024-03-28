@@ -87,8 +87,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.firstName").value(userResponseDto.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(userResponseDto.getLastName()))
                 .andExpect(jsonPath("$.birthDate").value(userResponseDto.getBirthDate().toString()))
-                .andExpect(jsonPath("$.role").value(userResponseDto.getRole().toString()))
-                .andExpect(jsonPath("$.subjects", hasSize(userResponseDto.getSubjects().size())));
+                .andExpect(jsonPath("$.role").value(userResponseDto.getRole().toString()));
 
         // Verify
         verify(getUserDataUseCase, times(1)).getUserData(userId);
@@ -293,7 +292,7 @@ class UserControllerTest {
                 .lastName("Doe")
                 .birthDate(LocalDate.of(1995,5,5))
                 .role(UserRole.ADMIN)
-                .subjects(new HashSet<>())
+                .subjects(new ArrayList<>())
                 .build();
     }
 

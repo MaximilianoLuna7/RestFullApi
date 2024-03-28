@@ -1,8 +1,11 @@
 package com.maxiluna.studentmanagement.application.services.course;
 
 import com.maxiluna.studentmanagement.domain.models.Course;
+import com.maxiluna.studentmanagement.domain.models.Subject;
 import com.maxiluna.studentmanagement.infrastructure.entities.CourseJpa;
+import com.maxiluna.studentmanagement.infrastructure.entities.SubjectJpa;
 import com.maxiluna.studentmanagement.infrastructure.persistence.JpaCourseRepository;
+import com.maxiluna.studentmanagement.infrastructure.persistence.JpaSubjectRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ListCoursesServiceTest {
@@ -45,13 +48,29 @@ class ListCoursesServiceTest {
         assertThat(actualCourses)
                 .hasSize(expectedCourses.size())
                 .containsAll(expectedCourses);
+
+        // Verify
+        verify(courseRepository, times(1)).findAll();
     }
 
     private List<CourseJpa> createCourseJpaList() {
         List<CourseJpa> courses = new ArrayList<>();
 
-        courses.add(new CourseJpa(1L, "Engineering", "University", 3.5));
-        courses.add(new CourseJpa(2L, "Doctorate", "University", 4d));
+        CourseJpa course1 = CourseJpa.builder()
+                .id(1L)
+                .name("Engineering")
+                .institutionName("University")
+                .durationInYears(3.5)
+                .build();
+        CourseJpa course2 = CourseJpa.builder()
+                .id(2L)
+                .name("Doctorate")
+                .institutionName("University")
+                .durationInYears(4d)
+                .build();
+
+        courses.add(course1);
+        courses.add(course2);
 
         return courses;
     }

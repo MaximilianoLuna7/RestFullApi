@@ -3,6 +3,7 @@ package com.maxiluna.studentmanagement.application.services.user;
 import com.maxiluna.studentmanagement.domain.exceptions.UserNotFoundException;
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.infrastructure.entities.UserJpa;
+import com.maxiluna.studentmanagement.infrastructure.persistence.JpaSubjectRepository;
 import com.maxiluna.studentmanagement.infrastructure.persistence.JpaUserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,6 +76,9 @@ class GetUserDataServiceTest {
         assertThatThrownBy(() -> getUserDataService.getUserData(invalidId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid user ID");
+
+        // Verify
+        verifyNoInteractions(userRepository);
     }
 
     private UserJpa createUserJpa () {

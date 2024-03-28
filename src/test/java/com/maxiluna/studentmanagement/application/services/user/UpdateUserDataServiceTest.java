@@ -101,7 +101,7 @@ class UpdateUserDataServiceTest {
                 .lastName("Doe")
                 .birthDate(LocalDate.of(1995,5,5))
                 .role(UserRole.ADMIN)
-                .subjects(new HashSet<>())
+                .subjects(new ArrayList<>())
                 .build();
     }
 }

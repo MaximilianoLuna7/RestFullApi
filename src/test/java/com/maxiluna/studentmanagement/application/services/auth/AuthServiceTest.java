@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -55,7 +56,7 @@ public class AuthServiceTest {
             .lastName("Doe")
             .birthDate(LocalDate.of(1995,5,5))
             .role(UserRole.ADMIN)
-            .subjects(new HashSet<>())
+            .subjects(new ArrayList<>())
             .build();
     private final String encodedPassword = "encoded.password";
     private final String token = "mockedToken";

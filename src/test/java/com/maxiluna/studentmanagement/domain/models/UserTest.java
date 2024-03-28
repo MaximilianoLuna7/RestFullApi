@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -113,7 +114,7 @@ public class UserTest {
                 .lastName(userLastName)
                 .birthDate(userBirthDate)
                 .role(userAdmin)
-                .subjects(new HashSet<>())
+                .subjects(new ArrayList<>())
                 .build();
 
         // Assert

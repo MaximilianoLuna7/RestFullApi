@@ -6,7 +6,8 @@ import com.maxiluna.studentmanagement.config.jwt.JwtAuthenticationFilter;
 import com.maxiluna.studentmanagement.domain.exceptions.CourseNotFoundException;
 import com.maxiluna.studentmanagement.domain.models.Course;
 import com.maxiluna.studentmanagement.domain.usecases.course.*;
-import com.maxiluna.studentmanagement.presentation.dtos.course.CourseDto;
+import com.maxiluna.studentmanagement.presentation.dtos.course.CourseResponseDto;
+import com.maxiluna.studentmanagement.presentation.dtos.course.CreateCourseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ class CourseControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    WebApplicationContext webApplicationContext;
+    private WebApplicationContext webApplicationContext;
 
     @MockBean
     private CreateCourseUseCase createCourseUseCase;
@@ -64,13 +65,13 @@ class CourseControllerTest {
     @DisplayName("Create course - Successful")
     public void createCourse_Successful() throws Exception {
         // Arrange
-        CourseDto courseDto = createCourseDto();
-        Course course = courseDto.toCourse();
+        CreateCourseDto createCourseDto = createCourseDto();
+        Course course = createCourseDto.toCourse();
 
         // Act & Assert
         mockMvc.perform(post("/api/courses/create")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(asJsonString(courseDto)))
+                    .content(asJsonString(createCourseDto)))
                 .andExpect(status().isNoContent());
 
         // Verify
@@ -83,7 +84,9 @@ class CourseControllerTest {
         // Arrange
         Long courseId = 1L;
         Course course = createCourse();
-        CourseDto courseDto = CourseDto.fromCourse(course);
+        course.setSubjects(new ArrayList<>());
+
+        CourseResponseDto responseCourseDto = CourseResponseDto.fromCourse(course);
 
         when(getCourseDataUseCase.getCourseData(courseId)).thenReturn(course);
 
@@ -91,10 +94,10 @@ class CourseControllerTest {
         mockMvc.perform(get("/api/courses/{courseId}", courseId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(courseDto.getId()))
-                .andExpect(jsonPath("$.name").value(courseDto.getName()))
-                .andExpect(jsonPath("$.institutionName").value(courseDto.getInstitutionName()))
-                .andExpect(jsonPath("$.durationInYears").value(courseDto.getDurationInYears()));
+                .andExpect(jsonPath("$.id").value(responseCourseDto.getId()))
+                .andExpect(jsonPath("$.name").value(responseCourseDto.getName()))
+                .andExpect(jsonPath("$.institutionName").value(responseCourseDto.getInstitutionName()))
+                .andExpect(jsonPath("$.durationInYears").value(responseCourseDto.getDurationInYears()));
 
         // Verify
         verify(getCourseDataUseCase, times(1)).getCourseData(courseId);
@@ -124,7 +127,7 @@ class CourseControllerTest {
     }
 
     @Test
-    @DisplayName("Get course data with non extistent ID - Throws Exception")
+    @DisplayName("Get course data with non existent ID - Throws Exception")
     public void getCourseWithNonExistentId_TrowsException() throws Exception {
         // Arrange
         Long nonExistentCourseId = 999L;
@@ -151,16 +154,16 @@ class CourseControllerTest {
     public void updateCourse_Successful() throws Exception {
         // Arrange
         Long courseId = 1L;
-        CourseDto courseDto = createCourseDto();
+        CreateCourseDto createCourseDto = createCourseDto();
 
         // Act & Assert
         mockMvc.perform(put("/api/courses/{courseId}", courseId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(courseDto)))
+                        .content(asJsonString(createCourseDto)))
                 .andExpect(status().isNoContent());
 
         // Verify
-        verify(updateCourseDataUseCase, times(1)).updateCourse(courseId, courseDto.toCourse());
+        verify(updateCourseDataUseCase, times(1)).updateCourse(courseId, createCourseDto.toCourse());
     }
 
     @Test
@@ -168,12 +171,12 @@ class CourseControllerTest {
     public void updateCourseWithInvalidData_TrowsException() throws Exception {
         // Arrange
         Long courseId = 1L;
-        CourseDto courseDto = new CourseDto();
+        CreateCourseDto createCourseDto = new CreateCourseDto();
 
         // Act & Assert
         mockMvc.perform(put("/api/courses/{courseId}", courseId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(courseDto)))
+                        .content(asJsonString(createCourseDto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.error").value("Validation error"))
@@ -189,16 +192,16 @@ class CourseControllerTest {
     public void updateNonExistentCourse_TrowsException() throws Exception {
         // Arrange
         Long nonExistentCourseId = 999L;
-        CourseDto courseDto = createCourseDto();
+        CreateCourseDto createCourseDto = createCourseDto();
         String expectedErrorMessage = "Course not found with ID: " + nonExistentCourseId;
 
         doThrow(new CourseNotFoundException(expectedErrorMessage))
-                .when(updateCourseDataUseCase).updateCourse(nonExistentCourseId, courseDto.toCourse());
+                .when(updateCourseDataUseCase).updateCourse(nonExistentCourseId, createCourseDto.toCourse());
 
         // Act & Assert
         mockMvc.perform(put("/api/courses/{courseId}", nonExistentCourseId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(courseDto)))
+                        .content(asJsonString(createCourseDto)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
                 .andExpect(jsonPath("$.error").value(HttpStatus.NOT_FOUND.getReasonPhrase()))
@@ -206,7 +209,7 @@ class CourseControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/courses/" + nonExistentCourseId));
 
         // Verify
-        verify(updateCourseDataUseCase, times(1)).updateCourse(nonExistentCourseId, courseDto.toCourse());
+        verify(updateCourseDataUseCase, times(1)).updateCourse(nonExistentCourseId, createCourseDto.toCourse());
     }
 
     @Test
@@ -253,8 +256,23 @@ class CourseControllerTest {
         // Arrange
         List<Course> expectedCourses = new ArrayList<>();
 
-        expectedCourses.add(new Course(1L, "Engineering", "University", 5d));
-        expectedCourses.add(new Course(2L, "Doctorate", "University", 4.5));
+        Course course1 = Course.builder()
+                .id(1L)
+                .name("Engineering")
+                .institutionName("University")
+                .durationInYears(3.5)
+                .subjects(new ArrayList<>())
+                .build();
+        Course course2 = Course.builder()
+                .id(2L)
+                .name("Doctorate")
+                .institutionName("University")
+                .durationInYears(4d)
+                .subjects(new ArrayList<>())
+                .build();
+
+        expectedCourses.add(course1);
+        expectedCourses.add(course2);
 
         when(listCoursesUseCase.listCourses()).thenReturn(expectedCourses);
         // Act & Assert
@@ -276,8 +294,17 @@ class CourseControllerTest {
         verify(listCoursesUseCase, times(1)).listCourses();
     }
 
-    private CourseDto createCourseDto() {
-        return CourseDto.builder()
+    private CreateCourseDto createCourseDto() {
+        return CreateCourseDto.builder()
+                .name("Engineering")
+                .institutionName("University")
+                .durationInYears(5.5)
+                .build();
+    }
+
+    private CourseResponseDto createResponseCourseDto() {
+        return CourseResponseDto.builder()
+                .id(1L)
                 .name("Engineering")
                 .institutionName("University")
                 .durationInYears(5.5)
