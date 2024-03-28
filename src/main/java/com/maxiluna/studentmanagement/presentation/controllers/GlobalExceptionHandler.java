@@ -1,9 +1,6 @@
 package com.maxiluna.studentmanagement.presentation.controllers;
 
-import com.maxiluna.studentmanagement.domain.exceptions.CourseNotFoundException;
-import com.maxiluna.studentmanagement.domain.exceptions.DatabaseErrorException;
-import com.maxiluna.studentmanagement.domain.exceptions.EmailAlreadyExistsException;
-import com.maxiluna.studentmanagement.domain.exceptions.UserNotFoundException;
+import com.maxiluna.studentmanagement.domain.exceptions.*;
 import com.maxiluna.studentmanagement.presentation.dtos.CustomErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataAccessException;
@@ -58,6 +55,30 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(SubjectNotFoundException.class)
+    public ResponseEntity<CustomErrorResponse> handlerSubjectNotFoundException(SubjectNotFoundException ex, HttpServletRequest request) {
+        CustomErrorResponse errorResponse = new CustomErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<CustomErrorResponse> handlerUnauthorizedAccessException(SubjectNotFoundException ex, HttpServletRequest request) {
+        CustomErrorResponse errorResponse = new CustomErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
