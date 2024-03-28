@@ -2,7 +2,8 @@ package com.maxiluna.studentmanagement.presentation.controllers;
 
 import com.maxiluna.studentmanagement.domain.models.Course;
 import com.maxiluna.studentmanagement.domain.usecases.course.*;
-import com.maxiluna.studentmanagement.presentation.dtos.course.CourseDto;
+import com.maxiluna.studentmanagement.presentation.dtos.course.CourseResponseDto;
+import com.maxiluna.studentmanagement.presentation.dtos.course.CreateCourseDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class CourseController {
     private ListCoursesUseCase listCoursesUseCase;
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createCourse(@RequestBody @Valid CourseDto courseToCreate) {
+    public ResponseEntity<Void> createCourse(@RequestBody @Valid CreateCourseDto courseToCreate) {
         Course course = courseToCreate.toCourse();
 
         createCourseUseCase.createCourse(course);
@@ -40,15 +41,15 @@ public class CourseController {
     }
 
     @GetMapping("/{courseId}")
-    public ResponseEntity<CourseDto> getCourse(@PathVariable Long courseId) {
+    public ResponseEntity<CourseResponseDto> getCourse(@PathVariable Long courseId) {
         Course course = getCourseDataUseCase.getCourseData(courseId);
 
-        return ResponseEntity.ok(CourseDto.fromCourse(course));
+        return ResponseEntity.ok(CourseResponseDto.fromCourse(course));
     }
 
     @PutMapping("/{courseId}")
-    public ResponseEntity<Void> updateCourse(@PathVariable Long courseId, @RequestBody @Valid CourseDto updatedCourseDto) {
-        Course updatedCourse = updatedCourseDto.toCourse();
+    public ResponseEntity<Void> updateCourse(@PathVariable Long courseId, @RequestBody @Valid CreateCourseDto updatedCreateCourseDto) {
+        Course updatedCourse = updatedCreateCourseDto.toCourse();
         updateCourseDataUseCase.updateCourse(courseId, updatedCourse);
 
         return ResponseEntity.noContent().build();
@@ -62,11 +63,11 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CourseDto>> listCourses() {
+    public ResponseEntity<List<CourseResponseDto>> listCourses() {
         List<Course> coursesList = listCoursesUseCase.listCourses();
 
-        List<CourseDto> coursesListDto = coursesList.stream()
-                .map(CourseDto::fromCourse)
+        List<CourseResponseDto> coursesListDto = coursesList.stream()
+                .map(CourseResponseDto::fromCourse)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(coursesListDto);

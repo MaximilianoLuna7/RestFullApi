@@ -1,9 +1,12 @@
 package com.maxiluna.studentmanagement.application.services.user;
 
 import com.maxiluna.studentmanagement.domain.exceptions.DatabaseErrorException;
+import com.maxiluna.studentmanagement.domain.models.Subject;
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.domain.usecases.user.ListUsersUseCase;
+import com.maxiluna.studentmanagement.infrastructure.entities.SubjectJpa;
 import com.maxiluna.studentmanagement.infrastructure.entities.UserJpa;
+import com.maxiluna.studentmanagement.infrastructure.persistence.JpaSubjectRepository;
 import com.maxiluna.studentmanagement.infrastructure.persistence.JpaUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -17,6 +20,9 @@ public class ListUsersService implements ListUsersUseCase {
 
     @Autowired
     private JpaUserRepository userRepository;
+
+    @Autowired
+    private JpaSubjectRepository subjectRepository;
 
     @Override
     public List<User> listUsers() {
