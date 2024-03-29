@@ -2,6 +2,7 @@ package com.maxiluna.studentmanagement.presentation.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maxiluna.studentmanagement.application.services.subject.GetSubjectsByCourseService;
 import com.maxiluna.studentmanagement.config.jwt.JwtAuthenticationFilter;
 import com.maxiluna.studentmanagement.domain.exceptions.SubjectNotFoundException;
 import com.maxiluna.studentmanagement.domain.models.Course;
@@ -16,6 +17,7 @@ import com.maxiluna.studentmanagement.presentation.dtos.user.UserResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -57,6 +59,12 @@ class SubjectControllerTest {
 
     @MockBean
     private ListSubjectsUseCase listSubjectsUseCase;
+
+    @MockBean
+    private GetSubjectsByTeacherUseCase getSubjectsByTeacherUseCase;
+
+    @MockBean
+    private GetSubjectsByCourseService getSubjectsByCourseService;
 
     @MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -378,7 +386,6 @@ class SubjectControllerTest {
                 .lastName("Doe")
                 .birthDate(LocalDate.of(1995,5,5))
                 .role(UserRole.TEACHER)
-                .subjectIds(new ArrayList<>())
                 .build();
     }
 
