@@ -1,5 +1,6 @@
-package com.maxiluna.studentmanagement.domain.models;
+package com.maxiluna.studentmanagement.domain.models.validations;
 
+import com.maxiluna.studentmanagement.domain.models.Course;
 import jakarta.validation.ConstraintViolation;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
