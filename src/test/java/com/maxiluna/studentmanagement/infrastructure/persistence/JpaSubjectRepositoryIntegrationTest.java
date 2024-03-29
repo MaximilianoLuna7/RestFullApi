@@ -35,7 +35,6 @@ class JpaSubjectRepositoryIntegrationTest {
         // Assert
         assertThat(savedSubject.getId()).isNotNull();
         assertThat(savedSubject.getName()).isEqualTo(subject.getName());
-        System.out.println(subject);
     }
 
     @Test
