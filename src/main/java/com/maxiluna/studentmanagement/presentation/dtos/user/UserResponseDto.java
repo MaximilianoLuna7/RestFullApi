@@ -37,8 +37,6 @@ public class UserResponseDto {
     @NotNull(message = "Role must not be null")
     private UserRole role;
 
-    private List<Long> subjectIds;
-
     public static UserResponseDto fromUser(User user) {
         return UserResponseDto.builder()
                 .id(user.getId())
