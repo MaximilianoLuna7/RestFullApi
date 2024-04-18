@@ -5,5 +5,5 @@ import com.maxiluna.studentmanagement.domain.models.Subject;
 import java.util.List;
 
 public interface GetSubjectsByTeacherUseCase {
-    List<Subject> getSubjectByTeacher(Long teacherId);
+    List<Subject> execute(Long teacherId);
 }

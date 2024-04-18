@@ -25,7 +25,7 @@ public class ListUsersService implements ListUsersUseCase {
     private JpaSubjectRepository subjectRepository;
 
     @Override
-    public List<User> listUsers() {
+    public List<User> execute() {
         try {
             List<UserJpa> usersList = userRepository.findAll();
 

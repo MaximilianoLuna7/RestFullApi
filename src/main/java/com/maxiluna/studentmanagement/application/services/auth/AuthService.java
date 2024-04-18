@@ -9,6 +9,7 @@ import com.maxiluna.studentmanagement.infrastructure.persistence.JpaUserReposito
 import com.maxiluna.studentmanagement.presentation.dtos.auth.AuthResponse;
 import com.maxiluna.studentmanagement.presentation.dtos.auth.LoginRequest;
 import com.maxiluna.studentmanagement.presentation.dtos.user.UserInfoDto;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
-
     @Autowired
     private JpaUserRepository jpaUserRepository;
 

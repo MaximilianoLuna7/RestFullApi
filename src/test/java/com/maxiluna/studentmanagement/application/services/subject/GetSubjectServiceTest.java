@@ -36,7 +36,7 @@ class GetSubjectServiceTest {
         when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(subjectJpa));
 
         // Act
-        Subject subject = getSubjectService.getSubject(subjectId);
+        Subject subject = getSubjectService.execute(subjectId);
 
         // Assert
         assertThat(subject).isNotNull();
@@ -55,7 +55,7 @@ class GetSubjectServiceTest {
         when(subjectRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThatThrownBy(() -> getSubjectService.getSubject(nonExistentId))
+        assertThatThrownBy(() -> getSubjectService.execute(nonExistentId))
                 .isInstanceOf(SubjectNotFoundException.class)
                 .hasMessageContaining("Subject not found with ID: " + nonExistentId);
 
@@ -70,7 +70,7 @@ class GetSubjectServiceTest {
         Long invalidId = 0L;
 
         // Act & Assert
-        assertThatThrownBy(() -> getSubjectService.getSubject(invalidId))
+        assertThatThrownBy(() -> getSubjectService.execute(invalidId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid subject ID: " + invalidId);
 

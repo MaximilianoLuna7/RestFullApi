@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class AttendanceTest {
     private final LocalDate dateRecord = LocalDate.now();
     private final Student student = new Student();
-    private final  Subject subject = new Subject();
     private final ClassRecord classRecord = new ClassRecord();
     private final AttendanceStatus attendanceStatus = AttendanceStatus.ATTEND;
 
@@ -52,19 +51,6 @@ class AttendanceTest {
     }
 
     @Test
-    @DisplayName("Set and get 'subject' property - Successful")
-    public void setAndGetSubject_Successful() {
-        // Arrange
-        Attendance attendance = new Attendance();
-
-        // Act
-        attendance.setSubject(subject);
-
-        // Assert
-        assertThat(attendance.getSubject()).isEqualTo(subject);
-    }
-
-    @Test
     @DisplayName("Set and get 'classRecord' property - Successful")
     public void setAndGetClassRecord_Successful() {
         // Arrange
@@ -87,13 +73,11 @@ class AttendanceTest {
         // Act
         attendance.setDateRecord(dateRecord);
         attendance.setStudent(student);
-        attendance.setSubject(subject);
         attendance.setClassRecord(classRecord);
         attendance.setAttendanceStatus(attendanceStatus);
 
         equalAttendance.setDateRecord(dateRecord);
         equalAttendance.setStudent(student);
-        equalAttendance.setSubject(subject);
         equalAttendance.setClassRecord(classRecord);
         equalAttendance.setAttendanceStatus(attendanceStatus);
 
@@ -108,7 +92,6 @@ class AttendanceTest {
         Attendance builtAttendance = Attendance.builder()
                 .dateRecord(dateRecord)
                 .student(student)
-                .subject(subject)
                 .classRecord(classRecord)
                 .attendanceStatus(attendanceStatus)
                 .build();
@@ -116,7 +99,6 @@ class AttendanceTest {
         // Assert
         assertThat(builtAttendance.getDateRecord()).isEqualTo(dateRecord);
         assertThat(builtAttendance.getStudent()).isEqualTo(student);
-        assertThat(builtAttendance.getSubject()).isEqualTo(subject);
         assertThat(builtAttendance.getClassRecord()).isEqualTo(classRecord);
         assertThat(builtAttendance.getAttendanceStatus()).isEqualTo(attendanceStatus);
     }

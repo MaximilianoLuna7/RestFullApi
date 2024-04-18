@@ -13,9 +13,8 @@ public class GetSubjectService implements GetSubjectUseCase {
     @Autowired
     private JpaSubjectRepository subjectRepository;
 
-
     @Override
-    public Subject getSubject(Long subjectId) {
+    public Subject execute(Long subjectId) {
         if (subjectId <= 0) {
             throw new IllegalArgumentException("Invalid subject ID: " + subjectId);
         }

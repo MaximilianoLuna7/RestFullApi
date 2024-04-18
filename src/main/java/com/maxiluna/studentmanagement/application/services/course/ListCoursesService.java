@@ -26,7 +26,7 @@ public class ListCoursesService implements ListCoursesUseCase {
     private JpaSubjectRepository subjectRepository;
 
     @Override
-    public List<Course> listCourses() {
+    public List<Course> execute() {
         try {
             List<CourseJpa> courseJpaList = courseRepository.findAll();
 

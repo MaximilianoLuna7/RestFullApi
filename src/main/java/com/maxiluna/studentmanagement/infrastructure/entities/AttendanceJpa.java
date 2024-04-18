@@ -32,10 +32,6 @@ public class AttendanceJpa {
     private StudentJpa student;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id")
-    private SubjectJpa subject;
-
-    @ManyToOne
     @JoinColumn(name = "classRecord_id")
     private ClassRecordJpa classRecord;
 

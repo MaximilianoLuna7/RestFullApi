@@ -19,7 +19,7 @@ public class UpdateCourseDataService implements UpdateCourseDataUseCase {
 
     @Override
     @Transactional
-    public void updateCourse(Long courseId, Course updatedCourse) {
+    public void execute(Long courseId, Course updatedCourse) {
         if (courseId == null || courseId <= 0) {
             throw new IllegalArgumentException("Invalid course ID: " + courseId);
         }

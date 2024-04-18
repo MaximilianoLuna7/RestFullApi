@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +34,7 @@ class DeleteCourseServiceTest {
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(courseJpa));
 
         // Act
-        deleteCourseService.deleteCourse(courseId);
+        deleteCourseService.execute(courseId);
 
         // Verify
         verify(courseRepository, times(1)).findById(courseId);
@@ -51,7 +50,7 @@ class DeleteCourseServiceTest {
         when(courseRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThatThrownBy(() -> deleteCourseService.deleteCourse(nonExistentId))
+        assertThatThrownBy(() -> deleteCourseService.execute(nonExistentId))
                 .isInstanceOf(CourseNotFoundException.class)
                         .hasMessageContaining("Course not found with ID: " + nonExistentId);
 
@@ -67,7 +66,7 @@ class DeleteCourseServiceTest {
         Long invalidId = 0L;
 
         // Act & Assert
-        assertThatThrownBy(() -> deleteCourseService.deleteCourse(invalidId))
+        assertThatThrownBy(() -> deleteCourseService.execute(invalidId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid course ID: " + invalidId);
 

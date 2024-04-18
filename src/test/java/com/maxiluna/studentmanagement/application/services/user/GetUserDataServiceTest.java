@@ -3,7 +3,6 @@ package com.maxiluna.studentmanagement.application.services.user;
 import com.maxiluna.studentmanagement.domain.exceptions.UserNotFoundException;
 import com.maxiluna.studentmanagement.domain.models.User;
 import com.maxiluna.studentmanagement.infrastructure.entities.UserJpa;
-import com.maxiluna.studentmanagement.infrastructure.persistence.JpaSubjectRepository;
 import com.maxiluna.studentmanagement.infrastructure.persistence.JpaUserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +38,7 @@ class GetUserDataServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(userJpa));
 
         // Act
-        User user = getUserDataService.getUserData(userId);
+        User user = getUserDataService.execute(userId);
 
         // Assert
         assertThat(user).isNotNull();
@@ -58,7 +57,7 @@ class GetUserDataServiceTest {
         when(userRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThatThrownBy(() -> getUserDataService.getUserData(nonExistentId))
+        assertThatThrownBy(() -> getUserDataService.execute(nonExistentId))
                 .isInstanceOf(UserNotFoundException.class)
                 .hasMessageContaining("User not found with ID: " + nonExistentId);
 
@@ -73,7 +72,7 @@ class GetUserDataServiceTest {
         Long invalidId = 0L;
 
         // Act & Assert
-        assertThatThrownBy(() -> getUserDataService.getUserData(invalidId))
+        assertThatThrownBy(() -> getUserDataService.execute(invalidId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid user ID");
 

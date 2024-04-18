@@ -17,7 +17,7 @@ public class DeleteSubjectService implements DeleteSubjectUseCase {
 
     @Override
     @Transactional
-    public void deleteSubject(Long subjectId) {
+    public void execute(Long subjectId) {
         if (subjectId == null || subjectId <= 0) {
             throw new IllegalArgumentException("Invalid subject ID: " + subjectId);
         }

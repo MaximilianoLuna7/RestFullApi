@@ -44,7 +44,7 @@ class GetSubjectsByCourseServiceTest {
         when(subjectRepository.findByCourseId(courseId)).thenReturn(subjectsJpaList);
 
         // Act
-        List<Subject> actualSubjects = getSubjectsByCourseService.getSubjectByCourse(courseId);
+        List<Subject> actualSubjects = getSubjectsByCourseService.execute(courseId);
 
         // Assert
         assertThat(actualSubjects).isNotNull();
@@ -60,7 +60,7 @@ class GetSubjectsByCourseServiceTest {
         Long invalidId = 0L;
 
         // Act & Assert
-        assertThatThrownBy(() -> getSubjectsByCourseService.getSubjectByCourse(invalidId))
+        assertThatThrownBy(() -> getSubjectsByCourseService.execute(invalidId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid course ID: " + invalidId);
 

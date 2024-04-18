@@ -18,7 +18,7 @@ public class GetSubjectsByCourseService implements GetSubjectsByCourseUseCase {
     private JpaSubjectRepository subjectRepository;
 
     @Override
-    public List<Subject> getSubjectByCourse(Long courseId) {
+    public List<Subject> execute(Long courseId) {
         if (courseId <= 0) {
             throw new IllegalArgumentException("Invalid course ID: " + courseId);
         }

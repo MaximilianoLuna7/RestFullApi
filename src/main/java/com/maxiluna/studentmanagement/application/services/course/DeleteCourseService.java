@@ -18,7 +18,7 @@ public class DeleteCourseService implements DeleteCourseUseCase {
 
     @Override
     @Transactional
-    public void deleteCourse(Long courseId) {
+    public void execute(Long courseId) {
         if (courseId == null || courseId <= 0) {
             throw new IllegalArgumentException("Invalid course ID: " + courseId);
         }

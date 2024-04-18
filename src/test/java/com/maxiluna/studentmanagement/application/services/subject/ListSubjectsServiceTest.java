@@ -1,6 +1,5 @@
 package com.maxiluna.studentmanagement.application.services.subject;
 
-import com.maxiluna.studentmanagement.domain.models.Course;
 import com.maxiluna.studentmanagement.domain.models.Subject;
 import com.maxiluna.studentmanagement.infrastructure.entities.CourseJpa;
 import com.maxiluna.studentmanagement.infrastructure.entities.SubjectJpa;
@@ -41,7 +40,7 @@ class ListSubjectsServiceTest {
         when(subjectRepository.findAll()).thenReturn(subjectsJpaList);
 
         // Act
-        List<Subject> actualSubjects = listSubjectsService.listSubjects();
+        List<Subject> actualSubjects = listSubjectsService.execute();
 
         // Assert
         assertThat(actualSubjects).isNotNull();

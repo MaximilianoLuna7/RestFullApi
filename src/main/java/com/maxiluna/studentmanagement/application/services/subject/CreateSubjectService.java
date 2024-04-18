@@ -33,7 +33,7 @@ public class CreateSubjectService implements CreateSubjectUseCase {
 
     @Override
     @Transactional
-    public void createSubject(Subject subjectToCreate, Long courseId, Long teacherId) {
+    public void execute(Subject subjectToCreate, Long courseId, Long teacherId) {
         try {
             // Extract the course and teacher from the database using their id.
             CourseJpa courseJpa = courseRepository.findById(courseId)

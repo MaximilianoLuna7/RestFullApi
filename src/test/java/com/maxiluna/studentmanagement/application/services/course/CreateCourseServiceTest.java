@@ -38,7 +38,7 @@ class CreateCourseServiceTest {
         CourseJpa courseJpa = CourseJpa.fromCourse(course);
 
         // Act
-        createCourseService.createCourse(course);
+        createCourseService.execute(course);
 
         // Verify
         verify(courseRepository, times(1)).save(courseJpa);

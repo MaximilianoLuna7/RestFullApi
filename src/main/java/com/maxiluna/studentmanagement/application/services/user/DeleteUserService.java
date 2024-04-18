@@ -18,7 +18,7 @@ public class DeleteUserService implements DeleteUserUseCase {
 
     @Override
     @Transactional
-    public void deleteUserAccount(Long userId) {
+    public void execute(Long userId) {
         if (userId == null || userId <= 0) {
             throw new IllegalArgumentException("Invalid user ID");
         }

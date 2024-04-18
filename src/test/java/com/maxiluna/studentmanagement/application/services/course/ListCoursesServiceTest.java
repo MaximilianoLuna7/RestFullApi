@@ -1,11 +1,8 @@
 package com.maxiluna.studentmanagement.application.services.course;
 
 import com.maxiluna.studentmanagement.domain.models.Course;
-import com.maxiluna.studentmanagement.domain.models.Subject;
 import com.maxiluna.studentmanagement.infrastructure.entities.CourseJpa;
-import com.maxiluna.studentmanagement.infrastructure.entities.SubjectJpa;
 import com.maxiluna.studentmanagement.infrastructure.persistence.JpaCourseRepository;
-import com.maxiluna.studentmanagement.infrastructure.persistence.JpaSubjectRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +38,7 @@ class ListCoursesServiceTest {
         when(courseRepository.findAll()).thenReturn(coursesJpaList);
 
         // Act
-        List<Course> actualCourses = listCoursesService.listCourses();
+        List<Course> actualCourses = listCoursesService.execute();
 
         // Assert
         assertThat(actualCourses).isNotNull();

@@ -17,9 +17,6 @@ public class Attendance {
     @NotNull(message = "Student must not be null")
     private Student student;
 
-    @NotNull(message = "Subject must not be null")
-    private Subject subject;
-
     @NotNull(message = "Class record must not be null")
     private ClassRecord classRecord;
 

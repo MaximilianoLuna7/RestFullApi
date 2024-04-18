@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable Long userId) {
-        User user = getUserDataUseCase.getUserData(userId);
+        User user = getUserDataUseCase.execute(userId);
 
         return ResponseEntity.ok(UserResponseDto.fromUser(user));
     }
@@ -41,21 +41,21 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<Void> updateUser(@PathVariable Long userId, @RequestBody @Valid UserUpdateDto updatedUserDto) {
         User updatedUser = updatedUserDto.toUser();
-        updateUserDataUseCase.updateUserData(userId, updatedUser);
+        updateUserDataUseCase.execute(userId, updatedUser);
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-        deleteUserUseCase.deleteUserAccount(userId);
+        deleteUserUseCase.execute(userId);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> listUsers() {
-        List<User> usersList = listUsersUseCase.listUsers();
+        List<User> usersList = listUsersUseCase.execute();
 
         List<UserResponseDto> usersListDto = usersList.stream()
                 .map(UserResponseDto::fromUser)

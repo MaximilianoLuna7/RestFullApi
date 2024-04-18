@@ -17,7 +17,6 @@ import com.maxiluna.studentmanagement.presentation.dtos.user.UserResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -90,7 +89,7 @@ class SubjectControllerTest {
                 .andExpect(status().isNoContent());
 
         // Verify
-        verify(createSubjectUseCase, times(1)).createSubject(subjectToCreate, courseId, teacherId);
+        verify(createSubjectUseCase, times(1)).execute(subjectToCreate, courseId, teacherId);
     }
 
     @Test
@@ -126,7 +125,7 @@ class SubjectControllerTest {
                 .teacher(teacher)
                 .build();
 
-        when(getSubjectUseCase.getSubject(subjectId)).thenReturn(subject);
+        when(getSubjectUseCase.execute(subjectId)).thenReturn(subject);
 
         // Act & Assert
         mockMvc.perform(get("/api/subjects/{subjectId}", subjectId)
@@ -137,7 +136,7 @@ class SubjectControllerTest {
                 .andExpect(jsonPath("$.academicYear").value(subjectDto.getAcademicYear()));
 
         // Verify
-        verify(getSubjectUseCase, times(1)).getSubject(subjectId);
+        verify(getSubjectUseCase, times(1)).execute(subjectId);
     }
 
     @Test
@@ -147,7 +146,7 @@ class SubjectControllerTest {
         Long invalidSubjectId = -1L;
         String expectedErrorMessage = "Invalid subject ID: " + invalidSubjectId;
 
-        when(getSubjectUseCase.getSubject(invalidSubjectId))
+        when(getSubjectUseCase.execute(invalidSubjectId))
                 .thenThrow(new IllegalArgumentException(expectedErrorMessage));
 
         // Act & Assert
@@ -160,7 +159,7 @@ class SubjectControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/subjects/" + invalidSubjectId));
 
         // Verify
-        verify(getSubjectUseCase, times(1)).getSubject(invalidSubjectId);
+        verify(getSubjectUseCase, times(1)).execute(invalidSubjectId);
     }
 
     @Test
@@ -170,7 +169,7 @@ class SubjectControllerTest {
         Long nonExistentSubjectId = 999L;
         String expectedErrorMessage = "Subject not found with ID: " + nonExistentSubjectId;
 
-        when(getSubjectUseCase.getSubject(nonExistentSubjectId))
+        when(getSubjectUseCase.execute(nonExistentSubjectId))
                 .thenThrow(new SubjectNotFoundException(expectedErrorMessage));
 
         // Act & Assert
@@ -183,7 +182,7 @@ class SubjectControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/subjects/" + nonExistentSubjectId));
 
         // Verify
-        verify(getSubjectUseCase, times(1)).getSubject(nonExistentSubjectId);
+        verify(getSubjectUseCase, times(1)).execute(nonExistentSubjectId);
     }
 
     @Test
@@ -200,7 +199,7 @@ class SubjectControllerTest {
                 .andExpect(status().isNoContent());
 
         // Verify
-        verify(updateSubjectUseCase, times(1)).updateSubject(subjectId, updatedSubjectDto.toSubject());
+        verify(updateSubjectUseCase, times(1)).execute(subjectId, updatedSubjectDto.toSubject());
     }
 
     @Test
@@ -234,7 +233,7 @@ class SubjectControllerTest {
         String expectedErrorMessage = "Subject not found with ID: " + nonExistentSubjectId;
 
         doThrow(new SubjectNotFoundException(expectedErrorMessage))
-                .when(updateSubjectUseCase).updateSubject(nonExistentSubjectId, updatedSubjectDto.toSubject());
+                .when(updateSubjectUseCase).execute(nonExistentSubjectId, updatedSubjectDto.toSubject());
 
         // Act & Assert
         mockMvc.perform(put("/api/subjects/{subjectId}", nonExistentSubjectId)
@@ -247,7 +246,7 @@ class SubjectControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/subjects/" + nonExistentSubjectId));
 
         // Verify
-        verify(updateSubjectUseCase, times(1)).updateSubject(nonExistentSubjectId, updatedSubjectDto.toSubject());
+        verify(updateSubjectUseCase, times(1)).execute(nonExistentSubjectId, updatedSubjectDto.toSubject());
     }
 
     @Test
@@ -262,7 +261,7 @@ class SubjectControllerTest {
                 .andExpect(status().isNoContent());
 
         // Verify
-        verify(deleteSubjectUseCase, times(1)).deleteSubject(subjectId);
+        verify(deleteSubjectUseCase, times(1)).execute(subjectId);
     }
 
     @Test
@@ -273,7 +272,7 @@ class SubjectControllerTest {
         String expectedErrorMessage = "Subject not found with ID: " + nonExistentId;
 
         doThrow(new SubjectNotFoundException(expectedErrorMessage))
-                .when(deleteSubjectUseCase).deleteSubject(nonExistentId);
+                .when(deleteSubjectUseCase).execute(nonExistentId);
 
         // Act & Assert
         mockMvc.perform(delete("/api/subjects/{subjectId}", nonExistentId)
@@ -285,7 +284,7 @@ class SubjectControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/subjects/" + nonExistentId));
 
         // Verify
-        verify(deleteSubjectUseCase, times(1)).deleteSubject(nonExistentId);
+        verify(deleteSubjectUseCase, times(1)).execute(nonExistentId);
     }
 
     @Test
@@ -331,7 +330,7 @@ class SubjectControllerTest {
         expectedSubjects.add(subject1);
         expectedSubjects.add(subject2);
 
-        when(listSubjectsUseCase.listSubjects()).thenReturn(expectedSubjects);
+        when(listSubjectsUseCase.execute()).thenReturn(expectedSubjects);
 
         // Act & Assert
         mockMvc.perform(get("/api/subjects")
@@ -347,7 +346,7 @@ class SubjectControllerTest {
                 .andExpect(jsonPath("$[1].academicYear").value(expectedSubjects.get(1).getAcademicYear()));
 
         // Verify
-        verify(listSubjectsUseCase, times(1)).listSubjects();
+        verify(listSubjectsUseCase, times(1)).execute();
     }
 
     private SubjectRequestDto createRequestDto() {

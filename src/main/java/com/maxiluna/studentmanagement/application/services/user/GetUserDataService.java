@@ -20,7 +20,7 @@ public class GetUserDataService implements GetUserDataUseCase {
     private JpaUserRepository userRepository;
 
     @Override
-    public User getUserData(Long userId) {
+    public User execute(Long userId) {
         if (userId <= 0) {
             throw new IllegalArgumentException("Invalid user ID: " + userId);
         }

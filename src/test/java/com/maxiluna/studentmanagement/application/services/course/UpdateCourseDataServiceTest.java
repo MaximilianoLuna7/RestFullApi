@@ -36,7 +36,7 @@ class UpdateCourseDataServiceTest {
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(courseJpa));
 
         // Act
-        updateCourseDataService.updateCourse(courseId, updatedCourse);
+        updateCourseDataService.execute(courseId, updatedCourse);
 
         // Verify
         verify(courseRepository, times(1)).findById(courseId);
@@ -51,7 +51,7 @@ class UpdateCourseDataServiceTest {
         Long invalidId = 0L;
 
         // Act & Assert
-        assertThatThrownBy(() -> updateCourseDataService.updateCourse(invalidId, updatedCourse))
+        assertThatThrownBy(() -> updateCourseDataService.execute(invalidId, updatedCourse))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid course ID: " + invalidId);
 
@@ -69,7 +69,7 @@ class UpdateCourseDataServiceTest {
         when(courseRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThatThrownBy(() -> updateCourseDataService.updateCourse(nonExistentId, updatedCourse))
+        assertThatThrownBy(() -> updateCourseDataService.execute(nonExistentId, updatedCourse))
                 .isInstanceOf(CourseNotFoundException.class)
                 .hasMessageContaining("Course not found with ID: " + nonExistentId);
 

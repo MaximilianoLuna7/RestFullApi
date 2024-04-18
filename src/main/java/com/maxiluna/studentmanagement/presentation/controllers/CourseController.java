@@ -35,14 +35,14 @@ public class CourseController {
     public ResponseEntity<Void> createCourse(@RequestBody @Valid CreateCourseDto courseToCreate) {
         Course course = courseToCreate.toCourse();
 
-        createCourseUseCase.createCourse(course);
+        createCourseUseCase.execute(course);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{courseId}")
     public ResponseEntity<CourseResponseDto> getCourse(@PathVariable Long courseId) {
-        Course course = getCourseDataUseCase.getCourseData(courseId);
+        Course course = getCourseDataUseCase.execute(courseId);
 
         return ResponseEntity.ok(CourseResponseDto.fromCourse(course));
     }
@@ -50,21 +50,21 @@ public class CourseController {
     @PutMapping("/{courseId}")
     public ResponseEntity<Void> updateCourse(@PathVariable Long courseId, @RequestBody @Valid CreateCourseDto updatedCreateCourseDto) {
         Course updatedCourse = updatedCreateCourseDto.toCourse();
-        updateCourseDataUseCase.updateCourse(courseId, updatedCourse);
+        updateCourseDataUseCase.execute(courseId, updatedCourse);
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{courseId}")
     public ResponseEntity<Void> deleteCourse(@PathVariable Long courseId) {
-        deleteCourseUseCase.deleteCourse(courseId);
+        deleteCourseUseCase.execute(courseId);
 
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
     public ResponseEntity<List<CourseResponseDto>> listCourses() {
-        List<Course> coursesList = listCoursesUseCase.listCourses();
+        List<Course> coursesList = listCoursesUseCase.execute();
 
         List<CourseResponseDto> coursesListDto = coursesList.stream()
                 .map(CourseResponseDto::fromCourse)

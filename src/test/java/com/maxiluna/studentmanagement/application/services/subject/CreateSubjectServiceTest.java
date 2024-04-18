@@ -1,11 +1,6 @@
 package com.maxiluna.studentmanagement.application.services.subject;
 
-import com.maxiluna.studentmanagement.domain.models.Course;
 import com.maxiluna.studentmanagement.domain.models.Subject;
-import com.maxiluna.studentmanagement.domain.models.User;
-import com.maxiluna.studentmanagement.domain.models.UserRole;
-import com.maxiluna.studentmanagement.domain.usecases.course.GetCourseDataUseCase;
-import com.maxiluna.studentmanagement.domain.usecases.user.GetUserDataUseCase;
 import com.maxiluna.studentmanagement.infrastructure.entities.CourseJpa;
 import com.maxiluna.studentmanagement.infrastructure.entities.SubjectJpa;
 import com.maxiluna.studentmanagement.infrastructure.entities.UserJpa;
@@ -20,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -75,7 +69,7 @@ class CreateSubjectServiceTest {
         when(userRepository.findById(teacherId)).thenReturn(Optional.of(teacherJpa));
 
         // Act
-        createSubjectService.createSubject(subject, courseId, teacherId);
+        createSubjectService.execute(subject, courseId, teacherId);
         System.out.println(courseJpa);
 
         // Verify

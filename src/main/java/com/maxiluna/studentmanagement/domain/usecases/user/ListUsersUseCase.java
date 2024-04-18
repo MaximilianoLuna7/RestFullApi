@@ -5,5 +5,5 @@ import com.maxiluna.studentmanagement.domain.models.User;
 import java.util.List;
 
 public interface ListUsersUseCase {
-    List<User> listUsers();
+    List<User> execute();
 }

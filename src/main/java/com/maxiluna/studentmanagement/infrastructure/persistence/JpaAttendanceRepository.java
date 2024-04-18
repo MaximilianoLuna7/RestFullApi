@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface JpaAttendanceRepository extends JpaRepository<AttendanceJpa, Long> {
     List<AttendanceJpa> findByStudentId(Long studentId);
-    List<AttendanceJpa> findBySubjectId(Long subjectId);
     List<AttendanceJpa> findByClassRecordId(Long classRecordId);
 }

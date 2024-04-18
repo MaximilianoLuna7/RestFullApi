@@ -19,7 +19,7 @@ public class ListSubjectsService implements ListSubjectsUseCase {
     private JpaSubjectRepository subjectRepository;
 
     @Override
-    public List<Subject> listSubjects() {
+    public List<Subject> execute() {
         try {
             List<SubjectJpa> subjectJpaList = subjectRepository.findAll();
 

@@ -21,7 +21,7 @@ public class GetCourseDataService implements GetCourseDataUseCase {
     private JpaCourseRepository courseRepository;
 
     @Override
-    public Course getCourseData(Long courseId) {
+    public Course execute(Long courseId) {
         if (courseId <= 0) {
             throw new IllegalArgumentException("Invalid course ID: " + courseId);
         }

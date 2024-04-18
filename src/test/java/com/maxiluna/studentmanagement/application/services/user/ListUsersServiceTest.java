@@ -1,10 +1,7 @@
 package com.maxiluna.studentmanagement.application.services.user;
 
-import com.maxiluna.studentmanagement.domain.models.Subject;
 import com.maxiluna.studentmanagement.domain.models.User;
-import com.maxiluna.studentmanagement.infrastructure.entities.SubjectJpa;
 import com.maxiluna.studentmanagement.infrastructure.entities.UserJpa;
-import com.maxiluna.studentmanagement.infrastructure.persistence.JpaSubjectRepository;
 import com.maxiluna.studentmanagement.infrastructure.persistence.JpaUserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +39,7 @@ class ListUsersServiceTest {
         when(userRepository.findAll()).thenReturn(userJpaList);
 
         // Act
-        List<User> actualUsers = listUsersService.listUsers();
+        List<User> actualUsers = listUsersService.execute();
 
         // Assert
         assertThat(actualUsers).isNotNull();

@@ -157,6 +157,39 @@ public class JpaEnrollmentRepositoryIntegrationTest {
         assertThat(foundEnrollments).contains(enrollment1, enrollment2);
     }
 
+    @Test
+    @DisplayName("Find enrollment by student id and subject id - Successful")
+    public void findEnrollmentsByStudentIdAndSubjectId_Successful() {
+        // Arrange
+        StudentJpa student2Jpa = StudentJpa.builder()
+                .firstName("Michael")
+                .lastName("Johnson")
+                .email("michael.johnson@example.com")
+                .birthDate(LocalDate.of(1980, 11, 10))
+                .build();
+        StudentJpa savedStudent2 = studentRepository.save(student2Jpa);
+
+        EnrollmentJpa enrollment1 = createEnrollmentJpa();
+        EnrollmentJpa enrollment2 = EnrollmentJpa.builder()
+                .student(savedStudent2)
+                .subject(enrollment1.getSubject())
+                .studentStatus("UNSUCCESSFUL")
+                .build();
+
+        Long subjectId = enrollment1.getSubject().getId();
+        Long student1Id = enrollment1.getStudent().getId();
+
+        EnrollmentJpa savedEnrollment1 = enrollmentRepository.save(enrollment1);
+        enrollmentRepository.save(enrollment2);
+
+        // Act
+        Optional<EnrollmentJpa> foundEnrollmentOptional = enrollmentRepository.findByStudentIdAndSubjectId(student1Id, subjectId);
+
+        // Assert
+        assertThat(foundEnrollmentOptional).isPresent();
+        assertThat(foundEnrollmentOptional.get().getId()).isEqualTo(savedEnrollment1.getId());
+    }
+
     private EnrollmentJpa createEnrollmentJpa() {
         SubjectJpa subject = SubjectJpa.builder()
                 .name("Mathematics")

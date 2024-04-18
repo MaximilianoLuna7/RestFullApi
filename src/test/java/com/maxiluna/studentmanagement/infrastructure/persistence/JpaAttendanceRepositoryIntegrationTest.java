@@ -78,7 +78,6 @@ public class JpaAttendanceRepositoryIntegrationTest {
         AttendanceJpa attendance2 = AttendanceJpa.builder()
                 .dateRecord(LocalDate.now())
                 .student(attendance1.getStudent())
-                .subject(attendance1.getSubject())
                 .classRecord(attendance1.getClassRecord())
                 .attendanceStatus("ABSENT")
                 .build();
@@ -119,7 +118,6 @@ public class JpaAttendanceRepositoryIntegrationTest {
         AttendanceJpa attendance2 = AttendanceJpa.builder()
                 .dateRecord(LocalDate.now())
                 .student(attendance1.getStudent())
-                .subject(attendance1.getSubject())
                 .classRecord(attendance1.getClassRecord())
                 .attendanceStatus("ABSENT")
                 .build();
@@ -140,34 +138,6 @@ public class JpaAttendanceRepositoryIntegrationTest {
     }
 
     @Test
-    @DisplayName("Find attendances by subject id - Successful")
-    public void findAttendancesBySubjectId_Successful() {
-        // Arrange
-        AttendanceJpa attendance1 = createAttendanceJpa();
-        AttendanceJpa attendance2 = AttendanceJpa.builder()
-                .dateRecord(LocalDate.now())
-                .student(attendance1.getStudent())
-                .subject(attendance1.getSubject())
-                .classRecord(attendance1.getClassRecord())
-                .attendanceStatus("ABSENT")
-                .build();
-
-        Long subjectId = attendance1.getSubject().getId();
-
-        attendanceRepository.save(attendance1);
-        attendanceRepository.save(attendance2);
-
-        // Act
-        List<AttendanceJpa> foundAttendances = attendanceRepository.findBySubjectId(subjectId);
-
-        // Assert
-        assertThat(foundAttendances)
-                .isNotNull()
-                .hasSize(2);
-        assertThat(foundAttendances).contains(attendance1, attendance2);
-    }
-
-    @Test
     @DisplayName("Find attendances by classRecord id - Successful")
     public void findAttendancesByClassRecordId_Successful() {
         // Arrange
@@ -175,7 +145,6 @@ public class JpaAttendanceRepositoryIntegrationTest {
         AttendanceJpa attendance2 = AttendanceJpa.builder()
                 .dateRecord(LocalDate.now())
                 .student(attendance1.getStudent())
-                .subject(attendance1.getSubject())
                 .classRecord(attendance1.getClassRecord())
                 .attendanceStatus("ABSENT")
                 .build();
@@ -224,7 +193,6 @@ public class JpaAttendanceRepositoryIntegrationTest {
         return AttendanceJpa.builder()
                 .dateRecord(LocalDate.now())
                 .student(savedStudent)
-                .subject(savedSubject)
                 .classRecord(savedClassRecord)
                 .attendanceStatus("ATTEND")
                 .build();

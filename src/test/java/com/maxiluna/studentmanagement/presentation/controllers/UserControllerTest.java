@@ -29,7 +29,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,7 +75,7 @@ class UserControllerTest {
         User user = createUser();
         UserResponseDto userResponseDto = UserResponseDto.fromUser(user);
 
-        when(getUserDataUseCase.getUserData(userId)).thenReturn(user);
+        when(getUserDataUseCase.execute(userId)).thenReturn(user);
 
         // Act & Assert
         mockMvc.perform(get("/api/users/{userId}", userId)
@@ -90,7 +89,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.role").value(userResponseDto.getRole().toString()));
 
         // Verify
-        verify(getUserDataUseCase, times(1)).getUserData(userId);
+        verify(getUserDataUseCase, times(1)).execute(userId);
     }
 
     @Test
@@ -100,7 +99,7 @@ class UserControllerTest {
         Long invalidUserId = -1L;
         String expectedErrorMessage = "Invalid user ID: " + invalidUserId;
 
-        when(getUserDataUseCase.getUserData(invalidUserId))
+        when(getUserDataUseCase.execute(invalidUserId))
                 .thenThrow(new IllegalArgumentException(expectedErrorMessage));
 
         // Act & Assert
@@ -113,7 +112,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/users/" + invalidUserId));
 
         // Verify
-        verify(getUserDataUseCase, times(1)).getUserData(invalidUserId);
+        verify(getUserDataUseCase, times(1)).execute(invalidUserId);
     }
 
     @Test
@@ -123,7 +122,7 @@ class UserControllerTest {
         Long nonExistentUserId = 999L;
         String expectedErrorMessage = "User not found with ID: " + nonExistentUserId;
 
-        when(getUserDataUseCase.getUserData(nonExistentUserId))
+        when(getUserDataUseCase.execute(nonExistentUserId))
                 .thenThrow(new UserNotFoundException(expectedErrorMessage));
 
         // Act & Assert
@@ -136,7 +135,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/users/" + nonExistentUserId));
 
         // Verify
-        verify(getUserDataUseCase, times(1)).getUserData(nonExistentUserId);
+        verify(getUserDataUseCase, times(1)).execute(nonExistentUserId);
     }
 
     @Test
@@ -153,7 +152,7 @@ class UserControllerTest {
                 .andExpect(status().isNoContent());
 
         // Verify
-        verify(updateUserDataUseCase, times(1)).updateUserData(userId, updateDto.toUser());
+        verify(updateUserDataUseCase, times(1)).execute(userId, updateDto.toUser());
     }
 
     @Test
@@ -183,7 +182,7 @@ class UserControllerTest {
         String expectedErrorMessage = "User not found with ID: " + nonExistentUserId;
 
         doThrow(new UserNotFoundException(expectedErrorMessage))
-                .when(updateUserDataUseCase).updateUserData(nonExistentUserId, updateDto.toUser());
+                .when(updateUserDataUseCase).execute(nonExistentUserId, updateDto.toUser());
 
         // Act & Assert
         mockMvc.perform(put("/api/users/{userId}", nonExistentUserId)
@@ -196,7 +195,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/users/" + nonExistentUserId));
 
         // Verify
-        verify(updateUserDataUseCase, times(1)).updateUserData(nonExistentUserId, updateDto.toUser());
+        verify(updateUserDataUseCase, times(1)).execute(nonExistentUserId, updateDto.toUser());
     }
 
     @Test
@@ -210,7 +209,7 @@ class UserControllerTest {
                 .andExpect(status().isNoContent());
 
         // Verify
-        verify(deleteUserUseCase, times(1)).deleteUserAccount(userId);
+        verify(deleteUserUseCase, times(1)).execute(userId);
     }
 
     @Test
@@ -221,7 +220,7 @@ class UserControllerTest {
         String expectedErrorMessage = "User not found.";
 
         doThrow(new UserNotFoundException(expectedErrorMessage))
-                .when(deleteUserUseCase).deleteUserAccount(nonExistentUserId);
+                .when(deleteUserUseCase).execute(nonExistentUserId);
 
         // Act & Assert
         mockMvc.perform(delete("/api/users/{userId}", nonExistentUserId))
@@ -241,7 +240,7 @@ class UserControllerTest {
                 .map(UserJpa::toUser)
                 .collect(Collectors.toList());
 
-        when(listUsersUseCase.listUsers()).thenReturn(expectedUsers);
+        when(listUsersUseCase.execute()).thenReturn(expectedUsers);
 
         // Act & Assert
         mockMvc.perform(get("/api/users"))
@@ -260,7 +259,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$[1].lastName").value(expectedUsers.get(1).getLastName()))
                 .andExpect(jsonPath("$[1].role").value(expectedUsers.get(1).getRole().toString()));
 
-        verify(listUsersUseCase, times(1)).listUsers();
+        verify(listUsersUseCase, times(1)).execute();
     }
 
     private List<UserJpa> createUserJpaList() {

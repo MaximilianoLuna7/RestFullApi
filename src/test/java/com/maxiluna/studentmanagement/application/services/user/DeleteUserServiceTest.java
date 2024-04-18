@@ -36,7 +36,7 @@ class DeleteUserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(userJpa));
 
         // Act
-        deleteUserService.deleteUserAccount(userId);
+        deleteUserService.execute(userId);
 
         // Verify
         verify(userRepository, times(1)).findById(userId);
@@ -52,7 +52,7 @@ class DeleteUserServiceTest {
         when(userRepository.findById(nonExistentUserId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThatThrownBy(() -> deleteUserService.deleteUserAccount(nonExistentUserId))
+        assertThatThrownBy(() -> deleteUserService.execute(nonExistentUserId))
                 .isInstanceOf(UserNotFoundException.class)
                 .hasMessageContaining("User not found");
 
@@ -68,7 +68,7 @@ class DeleteUserServiceTest {
         Long invalidId = 0L;
 
         // Act & Assert
-        assertThatThrownBy(() -> deleteUserService.deleteUserAccount(invalidId))
+        assertThatThrownBy(() -> deleteUserService.execute(invalidId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid user ID");
     }

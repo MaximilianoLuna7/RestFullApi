@@ -34,7 +34,7 @@ class DeleteSubjectServiceTest {
         when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(subjectJpa));
 
         // Act
-        deleteSubjectService.deleteSubject(subjectId);
+        deleteSubjectService.execute(subjectId);
 
         // Verify
         verify(subjectRepository, times(1)).findById(subjectId);
@@ -50,7 +50,7 @@ class DeleteSubjectServiceTest {
         when(subjectRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThatThrownBy(() -> deleteSubjectService.deleteSubject(nonExistentId))
+        assertThatThrownBy(() -> deleteSubjectService.execute(nonExistentId))
                 .isInstanceOf(SubjectNotFoundException.class)
                 .hasMessageContaining("Subject not found with ID: " + nonExistentId);
 
@@ -66,7 +66,7 @@ class DeleteSubjectServiceTest {
         Long invalidId = 0L;
 
         // Act & Assert
-        assertThatThrownBy(() -> deleteSubjectService.deleteSubject(invalidId))
+        assertThatThrownBy(() -> deleteSubjectService.execute(invalidId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid subject ID: " + invalidId);
 

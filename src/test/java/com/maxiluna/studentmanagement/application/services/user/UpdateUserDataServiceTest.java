@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -40,7 +39,7 @@ class UpdateUserDataServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(userJpa));
 
         // Act
-        updateUserDataService.updateUserData(userId, updatedUser);
+        updateUserDataService.execute(userId, updatedUser);
 
         // Verify
         verify(userRepository, times(1)).findById(userId);
@@ -55,7 +54,7 @@ class UpdateUserDataServiceTest {
         User updatedUser = createUser();
 
         // Act & Assert
-        assertThatThrownBy(() -> updateUserDataService.updateUserData(invalidId, updatedUser))
+        assertThatThrownBy(() -> updateUserDataService.execute(invalidId, updatedUser))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid user ID");
     }
@@ -70,7 +69,7 @@ class UpdateUserDataServiceTest {
         when(userRepository.findById(nonExistentUserId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThatThrownBy(() -> updateUserDataService.updateUserData(nonExistentUserId, updatedUser))
+        assertThatThrownBy(() -> updateUserDataService.execute(nonExistentUserId, updatedUser))
                 .isInstanceOf(UserNotFoundException.class)
                 .hasMessageContaining("User not found with ID: " + nonExistentUserId);
 

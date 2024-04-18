@@ -18,7 +18,7 @@ public class GetSubjectsByTeacherService implements GetSubjectsByTeacherUseCase 
     private JpaSubjectRepository subjectRepository;
 
     @Override
-    public List<Subject> getSubjectByTeacher(Long teacherId) {
+    public List<Subject> execute(Long teacherId) {
         if (teacherId <= 0) {
             throw new IllegalArgumentException("Invalid teacher ID: " + teacherId);
         }

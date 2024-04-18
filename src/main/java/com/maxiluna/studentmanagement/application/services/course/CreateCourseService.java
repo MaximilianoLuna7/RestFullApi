@@ -18,7 +18,7 @@ public class CreateCourseService implements CreateCourseUseCase {
 
     @Override
     @Transactional
-    public void createCourse(Course courseToCreate) {
+    public void execute(Course courseToCreate) {
         try {
             CourseJpa courseJpa = CourseJpa.fromCourse(courseToCreate);
 

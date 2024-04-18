@@ -75,7 +75,7 @@ class CourseControllerTest {
                 .andExpect(status().isNoContent());
 
         // Verify
-        verify(createCourseUseCase, times(1)).createCourse(course);
+        verify(createCourseUseCase, times(1)).execute(course);
     }
 
     @Test
@@ -88,7 +88,7 @@ class CourseControllerTest {
 
         CourseResponseDto responseCourseDto = CourseResponseDto.fromCourse(course);
 
-        when(getCourseDataUseCase.getCourseData(courseId)).thenReturn(course);
+        when(getCourseDataUseCase.execute(courseId)).thenReturn(course);
 
         // Act & Assert
         mockMvc.perform(get("/api/courses/{courseId}", courseId)
@@ -100,7 +100,7 @@ class CourseControllerTest {
                 .andExpect(jsonPath("$.durationInYears").value(responseCourseDto.getDurationInYears()));
 
         // Verify
-        verify(getCourseDataUseCase, times(1)).getCourseData(courseId);
+        verify(getCourseDataUseCase, times(1)).execute(courseId);
     }
 
     @Test
@@ -110,7 +110,7 @@ class CourseControllerTest {
         Long invalidCourseId = -1L;
         String expectedErrorMessage = "Invalid course ID: " + invalidCourseId;
 
-        when(getCourseDataUseCase.getCourseData(invalidCourseId))
+        when(getCourseDataUseCase.execute(invalidCourseId))
                 .thenThrow(new IllegalArgumentException(expectedErrorMessage));
 
         // Act & Assert
@@ -123,7 +123,7 @@ class CourseControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/courses/" + invalidCourseId));
 
         // Verify
-        verify(getCourseDataUseCase, times(1)).getCourseData(invalidCourseId);
+        verify(getCourseDataUseCase, times(1)).execute(invalidCourseId);
     }
 
     @Test
@@ -133,7 +133,7 @@ class CourseControllerTest {
         Long nonExistentCourseId = 999L;
         String expectedErrorMessage = "Course not found with ID: " + nonExistentCourseId;
 
-        when(getCourseDataUseCase.getCourseData(nonExistentCourseId))
+        when(getCourseDataUseCase.execute(nonExistentCourseId))
                 .thenThrow(new CourseNotFoundException(expectedErrorMessage));
 
         // Act & Assert
@@ -146,7 +146,7 @@ class CourseControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/courses/" + nonExistentCourseId));
 
         // Verify
-        verify(getCourseDataUseCase, times(1)).getCourseData(nonExistentCourseId);
+        verify(getCourseDataUseCase, times(1)).execute(nonExistentCourseId);
     }
 
     @Test
@@ -163,7 +163,7 @@ class CourseControllerTest {
                 .andExpect(status().isNoContent());
 
         // Verify
-        verify(updateCourseDataUseCase, times(1)).updateCourse(courseId, createCourseDto.toCourse());
+        verify(updateCourseDataUseCase, times(1)).execute(courseId, createCourseDto.toCourse());
     }
 
     @Test
@@ -196,7 +196,7 @@ class CourseControllerTest {
         String expectedErrorMessage = "Course not found with ID: " + nonExistentCourseId;
 
         doThrow(new CourseNotFoundException(expectedErrorMessage))
-                .when(updateCourseDataUseCase).updateCourse(nonExistentCourseId, createCourseDto.toCourse());
+                .when(updateCourseDataUseCase).execute(nonExistentCourseId, createCourseDto.toCourse());
 
         // Act & Assert
         mockMvc.perform(put("/api/courses/{courseId}", nonExistentCourseId)
@@ -209,7 +209,7 @@ class CourseControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/courses/" + nonExistentCourseId));
 
         // Verify
-        verify(updateCourseDataUseCase, times(1)).updateCourse(nonExistentCourseId, createCourseDto.toCourse());
+        verify(updateCourseDataUseCase, times(1)).execute(nonExistentCourseId, createCourseDto.toCourse());
     }
 
     @Test
@@ -224,7 +224,7 @@ class CourseControllerTest {
                 .andExpect(status().isNoContent());
 
         // Verify
-        verify(deleteCourseUseCase, times(1)).deleteCourse(courseId);
+        verify(deleteCourseUseCase, times(1)).execute(courseId);
     }
 
     @Test
@@ -235,7 +235,7 @@ class CourseControllerTest {
         String expectedErrorMessage = "Course not found with ID: " + nonExistentId;
 
         doThrow(new CourseNotFoundException(expectedErrorMessage))
-                .when(deleteCourseUseCase).deleteCourse(nonExistentId);
+                .when(deleteCourseUseCase).execute(nonExistentId);
 
         // Act & Assert
         mockMvc.perform(delete("/api/courses/{courseId}", nonExistentId)
@@ -247,7 +247,7 @@ class CourseControllerTest {
                 .andExpect(jsonPath("$.path").value("/api/courses/" + nonExistentId));
 
         // Verify
-        verify(deleteCourseUseCase, times(1)).deleteCourse(nonExistentId);
+        verify(deleteCourseUseCase, times(1)).execute(nonExistentId);
     }
 
     @Test
@@ -274,7 +274,7 @@ class CourseControllerTest {
         expectedCourses.add(course1);
         expectedCourses.add(course2);
 
-        when(listCoursesUseCase.listCourses()).thenReturn(expectedCourses);
+        when(listCoursesUseCase.execute()).thenReturn(expectedCourses);
         // Act & Assert
         mockMvc.perform(get("/api/courses")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -291,7 +291,7 @@ class CourseControllerTest {
                 .andExpect(jsonPath("$[1].durationInYears").value(expectedCourses.get(1).getDurationInYears()));
 
         // Verify
-        verify(listCoursesUseCase, times(1)).listCourses();
+        verify(listCoursesUseCase, times(1)).execute();
     }
 
     private CreateCourseDto createCourseDto() {

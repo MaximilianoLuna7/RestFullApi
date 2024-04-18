@@ -20,7 +20,7 @@ public class UpdateSubjectService implements UpdateSubjectUseCase {
 
     @Override
     @Transactional
-    public void updateSubject(Long subjectId, Subject updatedSubject) {
+    public void execute(Long subjectId, Subject updatedSubject) {
         if (subjectId <= 0) {
             throw new IllegalArgumentException("Invalid subject ID: " + subjectId);
         }

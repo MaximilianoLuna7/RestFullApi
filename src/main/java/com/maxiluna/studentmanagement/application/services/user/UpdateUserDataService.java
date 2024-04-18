@@ -19,7 +19,7 @@ public class UpdateUserDataService implements UpdateUserDataUseCase {
 
     @Override
     @Transactional
-    public void updateUserData(Long userId, User updatedUser) {
+    public void execute(Long userId, User updatedUser) {
         if (userId == null || userId <= 0) {
             throw new IllegalArgumentException("Invalid user ID: " + userId);
         }
