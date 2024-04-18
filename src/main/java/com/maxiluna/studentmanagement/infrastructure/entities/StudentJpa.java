@@ -57,6 +57,7 @@ public class StudentJpa {
                 .birthDate(student.getBirthDate())
                 .dni(student.getDni())
                 .city(student.getCity())
+                .admissionYear(student.getAdmissionYear())
                 .build();
     }
 
