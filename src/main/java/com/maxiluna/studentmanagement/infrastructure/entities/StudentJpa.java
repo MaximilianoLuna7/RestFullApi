@@ -1,5 +1,6 @@
 package com.maxiluna.studentmanagement.infrastructure.entities;
 
+import com.maxiluna.studentmanagement.domain.models.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -47,4 +47,29 @@ public class StudentJpa {
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<GradeJpa> grades;
+
+    public static StudentJpa fromStudent(Student student) {
+        return StudentJpa.builder()
+                .id(student.getId())
+                .firstName(student.getFirstName())
+                .lastName(student.getLastName())
+                .email(student.getEmail())
+                .birthDate(student.getBirthDate())
+                .dni(student.getDni())
+                .city(student.getCity())
+                .build();
+    }
+
+    public Student toStudent() {
+        return Student.builder()
+                .id(this.id)
+                .firstName(this.firstName)
+                .lastName(this.lastName)
+                .email(this.email)
+                .birthDate(this.birthDate)
+                .dni(this.dni)
+                .city(this.city)
+                .admissionYear(this.admissionYear)
+                .build();
+    }
 }

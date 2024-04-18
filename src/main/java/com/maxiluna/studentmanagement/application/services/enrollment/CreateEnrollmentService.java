@@ -13,9 +13,12 @@ import com.maxiluna.studentmanagement.infrastructure.persistence.JpaStudentRepos
 import com.maxiluna.studentmanagement.infrastructure.persistence.JpaSubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
+@Service
 public class CreateEnrollmentService implements CreateEnrollmentUseCase {
     @Autowired
     private JpaEnrollmentRepository enrollmentRepository;
@@ -27,6 +30,7 @@ public class CreateEnrollmentService implements CreateEnrollmentUseCase {
     private JpaSubjectRepository subjectRepository;
 
     @Override
+    @Transactional
     public void execute(Long studentId, Long subjectId, StudentStatus status) {
         try {
             StudentJpa studentJpa = studentRepository.findById(studentId)

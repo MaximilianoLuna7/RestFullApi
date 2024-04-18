@@ -1,5 +1,6 @@
 package com.maxiluna.studentmanagement.infrastructure.entities;
 
+import com.maxiluna.studentmanagement.domain.models.Enrollment;
 import com.maxiluna.studentmanagement.domain.models.Student;
 import com.maxiluna.studentmanagement.domain.models.StudentStatus;
 import com.maxiluna.studentmanagement.domain.models.Subject;
@@ -31,4 +32,20 @@ public class EnrollmentJpa {
 
     @Column(nullable = false, name = "student_status")
     private String studentStatus;
+
+    public static EnrollmentJpa fromEnrollment(Enrollment enrollment) {
+        return EnrollmentJpa.builder()
+                .id(enrollment.getId())
+                .studentStatus(enrollment.getStudentStatus().name())
+                .build();
+    }
+
+    public Enrollment toEnrollment() {
+        return Enrollment.builder()
+                .id(this.id)
+                .student(this.student.toStudent())
+                .subject(this.subject.toSubject())
+                .studentStatus(StudentStatus.valueOf(String.valueOf(this.studentStatus)))
+                .build();
+    }
 }
