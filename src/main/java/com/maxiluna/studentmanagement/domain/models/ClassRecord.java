@@ -1,8 +1,5 @@
 package com.maxiluna.studentmanagement.domain.models;
 
-import com.maxiluna.studentmanagement.infrastructure.entities.AttendanceJpa;
-import com.maxiluna.studentmanagement.infrastructure.entities.GradeJpa;
-import com.maxiluna.studentmanagement.infrastructure.entities.SubjectJpa;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -32,10 +29,9 @@ public class ClassRecord {
     @NotNull(message = "Date must not be null")
     private LocalDate date;
 
-    @NotNull(message = "Subject must not be null")
     private Subject subject;
 
-    private List<Attendance> attendances = new ArrayList<>();
+    private List<Attendance> attendances;
 
-    private List<Grade> grades = new ArrayList<>();
+    private List<Grade> grades;
 }

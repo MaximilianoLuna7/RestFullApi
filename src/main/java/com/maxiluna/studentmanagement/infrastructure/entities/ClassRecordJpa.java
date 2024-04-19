@@ -1,5 +1,6 @@
 package com.maxiluna.studentmanagement.infrastructure.entities;
 
+import com.maxiluna.studentmanagement.domain.models.ClassRecord;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,8 +35,27 @@ public class ClassRecordJpa {
     private SubjectJpa subject;
 
     @OneToMany(mappedBy = "classRecord", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<AttendanceJpa> attendances = new ArrayList<>();
+    private List<AttendanceJpa> attendances;
 
     @OneToMany(mappedBy = "classRecord", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<GradeJpa> grades = new ArrayList<>();
+    private List<GradeJpa> grades;
+
+    public static ClassRecordJpa fromClassRecord(ClassRecord classRecord) {
+        return ClassRecordJpa.builder()
+                .id(classRecord.getId())
+                .topic(classRecord.getTopic())
+                .activities(classRecord.getActivities())
+                .date(classRecord.getDate())
+                .build();
+    }
+
+    public ClassRecord toClassRecord() {
+        return ClassRecord.builder()
+                .id(this.id)
+                .topic(this.topic)
+                .activities(this.activities)
+                .date(this.date)
+                .subject(this.subject.toSubject())
+                .build();
+    }
 }
