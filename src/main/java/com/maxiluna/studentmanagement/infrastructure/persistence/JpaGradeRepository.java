@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface JpaGradeRepository extends JpaRepository<GradeJpa, Long> {
-    List<GradeJpa> findBySubjectId(Long subjectId);
     List<GradeJpa> findByStudentId(Long studentId);
     List<GradeJpa> findByClassRecordId(Long classRecordId);
 }
