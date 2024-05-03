@@ -1,9 +1,6 @@
 package com.maxiluna.studentmanagement.infrastructure.entities;
 
-import com.maxiluna.studentmanagement.domain.models.AttendanceStatus;
-import com.maxiluna.studentmanagement.domain.models.ClassRecord;
-import com.maxiluna.studentmanagement.domain.models.Student;
-import com.maxiluna.studentmanagement.domain.models.Subject;
+import com.maxiluna.studentmanagement.domain.models.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -37,4 +34,22 @@ public class AttendanceJpa {
 
     @Column(nullable = false, name = "attendance_status")
     private String attendanceStatus;
+
+    public static AttendanceJpa fromAttendance(Attendance attendance) {
+        return AttendanceJpa.builder()
+                .id(attendance.getId())
+                .dateRecord(attendance.getDateRecord())
+                .attendanceStatus(attendance.getAttendanceStatus().name())
+                .build();
+    }
+
+    public Attendance toAttendance() {
+        return Attendance.builder()
+                .id(this.id)
+                .dateRecord(this.dateRecord)
+                .student(this.student.toStudent())
+                .classRecord(this.classRecord.toClassRecord())
+                .attendanceStatus(AttendanceStatus.valueOf(String.valueOf(this.attendanceStatus)))
+                .build();
+    }
 }

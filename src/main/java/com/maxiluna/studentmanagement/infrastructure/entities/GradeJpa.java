@@ -1,5 +1,6 @@
 package com.maxiluna.studentmanagement.infrastructure.entities;
 
+import com.maxiluna.studentmanagement.domain.models.Grade;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,14 +30,30 @@ public class GradeJpa {
     private Double score;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id")
-    private SubjectJpa subject;
-
-    @ManyToOne
     @JoinColumn(name = "student_id")
     private StudentJpa student;
 
     @ManyToOne
     @JoinColumn(name = "classRecord_id")
     private ClassRecordJpa classRecord;
+
+    public static GradeJpa fromGrade(Grade grade) {
+        return GradeJpa.builder()
+                .id(grade.getId())
+                .recordDate(grade.getRecordDate())
+                .description(grade.getDescription())
+                .score(grade.getScore())
+                .build();
+    }
+
+    public Grade toGrade() {
+        return Grade.builder()
+                .id(this.id)
+                .recordDate(this.recordDate)
+                .description(this.description)
+                .score(this.score)
+                .student(this.toGrade().getStudent())
+                .classRecord(this.classRecord.toClassRecord())
+                .build();
+    }
 }
