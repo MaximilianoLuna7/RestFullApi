@@ -26,12 +26,9 @@ public class Grade {
     @DecimalMax(value = "100", message = "Score must be greater than 100")
     private Double score;
 
-    @NotNull(message = "Subject must not be null")
     private Subject subject;
 
-    @NotNull(message = "Student must not be null")
     private Student student;
 
-    @NotNull(message = "Class record must not be null")
     private ClassRecord classRecord;
 }
