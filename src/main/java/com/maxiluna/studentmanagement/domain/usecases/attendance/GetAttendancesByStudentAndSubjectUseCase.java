@@ -4,6 +4,6 @@ import com.maxiluna.studentmanagement.domain.models.Attendance;
 
 import java.util.List;
 
-public interface ListAttendancesUseCase {
-    List<Attendance> execute();
+public interface GetAttendancesByStudentAndSubjectUseCase {
+    List<Attendance> execute(Long studentId, Long subjectId);
 }
