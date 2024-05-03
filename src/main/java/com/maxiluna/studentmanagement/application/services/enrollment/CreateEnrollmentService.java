@@ -44,12 +44,6 @@ public class CreateEnrollmentService implements CreateEnrollmentUseCase {
                     .studentStatus(status.toString())
                     .build();
 
-            if (studentJpa.getEnrollments() == null) {
-                studentJpa.setEnrollments(new ArrayList<>());
-            }
-            studentJpa.getEnrollments().add(enrollmentJpa);
-            studentRepository.save(studentJpa);
-
             enrollmentRepository.save(enrollmentJpa);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException("Error creating enrollment: " + ex.getMessage());

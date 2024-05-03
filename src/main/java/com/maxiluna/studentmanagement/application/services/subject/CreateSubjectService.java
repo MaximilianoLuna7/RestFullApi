@@ -35,40 +35,20 @@ public class CreateSubjectService implements CreateSubjectUseCase {
     @Transactional
     public void execute(Subject subjectToCreate, Long courseId, Long teacherId) {
         try {
-            // Extract the course and teacher from the database using their id.
             CourseJpa courseJpa = courseRepository.findById(courseId)
                     .orElseThrow(() -> new CourseNotFoundException("Course not found with ID: " + courseId));
             UserJpa teacherJpa = userRepository.findById(teacherId)
                     .orElseThrow(() -> new UserNotFoundException("Teacher not found with ID: " + teacherId));
 
-            // Verify that the user has a teacher role
             if (!isTeacher(teacherJpa)) {
                 throw new UnauthorizedAccessException("Only teachers can create subjects");
             }
 
-            // Create subjectJpa from subjectToCreate and set the course and teacher
             SubjectJpa subjectJpa = SubjectJpa.fromSubject(subjectToCreate);
             subjectJpa.setCourse(courseJpa);
             subjectJpa.setTeacher(teacherJpa);
 
-            // If the course does not yet have subjects, assign a list and then add the subject
-            if (courseJpa.getSubjects() == null) {
-                courseJpa.setSubjects(new ArrayList<>());
-            }
-            courseJpa.getSubjects().add(subjectJpa);
-
-            //If the teacher does not yet have subjects, assign a list and then add the subject
-            if (teacherJpa.getSubjects() == null) {
-                teacherJpa.setSubjects(new ArrayList<>());
-            }
-            teacherJpa.getSubjects().add(subjectJpa);
-
-            // Save the new subject
             subjectRepository.save(subjectJpa);
-
-            // Save the other updated entities
-            courseRepository.save(courseJpa);
-            userRepository.save(teacherJpa);
         } catch (DataAccessException ex) {
             throw new DatabaseErrorException("Error creating subject: " + ex.getMessage());
         }
