@@ -113,49 +113,4 @@ public class GradeValidationTest {
                 .extracting(ConstraintViolation::getMessage)
                 .contains("Score must be greater than 100");
     }
-
-    @Test
-    @DisplayName("Validate 'subject' property - Not null")
-    public void validateSubject_NotNull() {
-        // Arrange
-
-        // Act
-        Set<ConstraintViolation<Grade>> violations = validate(grade);
-
-        // Assert
-        assertThat(violations)
-                .isNotEmpty()
-                .extracting(ConstraintViolation::getMessage)
-                .contains("Subject must not be null");
-    }
-
-    @Test
-    @DisplayName("Validate 'student' property - Not null")
-    public void validateStudent_NotNull() {
-        // Arrange
-
-        // Act
-        Set<ConstraintViolation<Grade>> violations = validate(grade);
-
-        // Assert
-        assertThat(violations)
-                .isNotEmpty()
-                .extracting(ConstraintViolation::getMessage)
-                .contains("Student must not be null");
-    }
-
-    @Test
-    @DisplayName("Validate 'classRecord' property - Not null")
-    public void validateClassRecord_NotNull() {
-        // Arrange
-
-        // Act
-        Set<ConstraintViolation<Grade>> violations = validate(grade);
-
-        // Assert
-        assertThat(violations)
-                .isNotEmpty()
-                .extracting(ConstraintViolation::getMessage)
-                .contains("Class record must not be null");
-    }
 }

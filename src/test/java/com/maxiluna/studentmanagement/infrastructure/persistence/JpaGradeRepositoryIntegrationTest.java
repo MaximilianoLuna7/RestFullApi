@@ -76,7 +76,6 @@ public class JpaGradeRepositoryIntegrationTest {
                 .recordDate(LocalDate.now())
                 .description("Second partial exam")
                 .score(70.0)
-                .subject(grade1.getSubject())
                 .student(grade1.getStudent())
                 .classRecord(grade1.getClassRecord())
                 .build();
@@ -110,35 +109,6 @@ public class JpaGradeRepositoryIntegrationTest {
     }
 
     @Test
-    @DisplayName("Find grades by subject id - Successful")
-    public void findGradesBySubjectId_Successful() {
-        // Arrange
-        GradeJpa grade1 = createGradeJpa();
-        GradeJpa grade2 = GradeJpa.builder()
-                .recordDate(LocalDate.now())
-                .description("Second partial exam")
-                .score(70.0)
-                .subject(grade1.getSubject())
-                .student(grade1.getStudent())
-                .classRecord(grade1.getClassRecord())
-                .build();
-
-        Long subjectId = grade1.getSubject().getId();
-
-        gradeRepository.save(grade1);
-        gradeRepository.save(grade2);
-
-        // Act
-        List<GradeJpa> foundGrades = gradeRepository.findBySubjectId(subjectId);
-
-        // Assert
-        assertThat(foundGrades)
-                .isNotNull()
-                .hasSize(2);
-        assertThat(foundGrades).contains(grade1, grade2);
-    }
-
-    @Test
     @DisplayName("Find grades by student id - Successful")
     public void findGradesByStudentId_Successful() {
         // Arrange
@@ -147,7 +117,6 @@ public class JpaGradeRepositoryIntegrationTest {
                 .recordDate(LocalDate.now())
                 .description("Second partial exam")
                 .score(70.0)
-                .subject(grade1.getSubject())
                 .student(grade1.getStudent())
                 .classRecord(grade1.getClassRecord())
                 .build();
@@ -176,7 +145,6 @@ public class JpaGradeRepositoryIntegrationTest {
                 .recordDate(LocalDate.now())
                 .description("Second partial exam")
                 .score(70.0)
-                .subject(grade1.getSubject())
                 .student(grade1.getStudent())
                 .classRecord(grade1.getClassRecord())
                 .build();
@@ -226,7 +194,6 @@ public class JpaGradeRepositoryIntegrationTest {
                 .recordDate(LocalDate.now())
                 .description("First partial exam")
                 .score(90.0)
-                .subject(savedSubject)
                 .student(savedStudent)
                 .classRecord(savedClassRecord)
                 .build();
