@@ -1,10 +1,21 @@
 package com.maxiluna.studentmanagement.presentation.dtos.student;
 
+import com.maxiluna.studentmanagement.domain.models.Student;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class StudentResponseDto {
+    private Long id;
+
     @NotBlank(message = "FirstName must not be blank")
     @Size(min = 2, max = 100, message = "FirstName must be between 2 and 100 characters")
     private String firstName;
@@ -29,5 +40,16 @@ public class StudentResponseDto {
     @Min(value = 2000, message = "Admission year must be greater than or equal to 2000")
     private Integer admissionYear;
 
-
+    public static StudentResponseDto fromStudent(Student student) {
+        return StudentResponseDto.builder()
+                .id(student.getId())
+                .firstName(student.getFirstName())
+                .lastName(student.getLastName())
+                .email(student.getEmail())
+                .birthDate(student.getBirthDate())
+                .dni(student.getDni())
+                .city(student.getCity())
+                .admissionYear(student.getAdmissionYear())
+                .build();
+    }
 }

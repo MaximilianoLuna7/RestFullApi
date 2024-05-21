@@ -23,10 +23,8 @@ public class SubjectRequestDto {
     @Min(value = 2000, message = "Academic year must be greater than or equal to 2000")
     private Integer academicYear;
 
-    @NotNull(message = "Course ID is required")
     private Long courseId;
 
-    @NotNull(message = "Teacher ID is required")
     private Long teacherId;
 
     public Subject toSubject() {
