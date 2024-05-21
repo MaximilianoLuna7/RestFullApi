@@ -41,7 +41,7 @@ public class UserJpa{
 
     private String role;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<SubjectJpa> subjects;
 
     public static UserJpa fromUser(User user) {
