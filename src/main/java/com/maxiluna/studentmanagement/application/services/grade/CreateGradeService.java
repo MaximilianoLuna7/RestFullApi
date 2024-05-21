@@ -42,6 +42,7 @@ public class CreateGradeService implements CreateGradeUseCase {
             SubjectJpa subjectJpa = classRecordJpa.getSubject();
 
             GradeJpa gradeJpa = GradeJpa.fromGrade(gradeToCreate);
+            gradeJpa.setRecordDate(classRecordJpa.getDate());
             gradeJpa.setStudent(studentJpa);
             gradeJpa.setClassRecord(classRecordJpa);
 

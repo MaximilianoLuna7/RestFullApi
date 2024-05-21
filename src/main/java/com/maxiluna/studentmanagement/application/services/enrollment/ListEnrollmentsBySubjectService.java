@@ -7,10 +7,12 @@ import com.maxiluna.studentmanagement.infrastructure.entities.EnrollmentJpa;
 import com.maxiluna.studentmanagement.infrastructure.persistence.JpaEnrollmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ListEnrollmentsBySubjectService implements ListEnrollmentsBySubjectUseCase {
     @Autowired
     private JpaEnrollmentRepository enrollmentRepository;
